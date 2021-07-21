@@ -27,6 +27,10 @@ public final class Constants {
         public static final int RIGHT_SLAVE_ID = 3;
 
         /******** PID Constants ********/
-        public static final PIDParameters PIDConstants = new PIDParameters(0.1, 0, 0);
+        public static final PIDParameters PID_CONSTANTS = new PIDParameters(0.1, 0, 0);
+
+        /******** Physical Constants ********/
+        public static final double GEAR_RATIO = 10.7;
+        public static final double WHEEL_DIAMETER = 6; // Inches
     }
 }
