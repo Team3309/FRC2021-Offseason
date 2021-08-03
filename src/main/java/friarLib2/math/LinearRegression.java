@@ -8,7 +8,7 @@ public class LinearRegression {
     /**
      * Compute m and b.
      * 
-     * I (Mark) copied this code from https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/LinearRegression.java.html
+     * <p>I (Mark) copied this code from https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/LinearRegression.java.html
      * and don't understand any of it, but it seems to work great!
      * 
      * @param data a 2D array of x and y coordinates

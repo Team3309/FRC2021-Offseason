@@ -3,7 +3,8 @@ package friarLib2.vision;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
- * Wrapper for the limelight's networktables API, which can be found at https://docs.limelightvision.io/en/latest/networktables_api.html
+ * Wrapper for the limelight's networktables API, which can be found at 
+ * https://docs.limelightvision.io/en/latest/networktables_api.html
  */
 public class LimelightCamera implements VisionCamera {
 
