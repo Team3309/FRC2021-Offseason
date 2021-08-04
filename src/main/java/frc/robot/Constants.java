@@ -54,4 +54,17 @@ public final class Constants {
         /******** Tuning Constants ********/
         public static final double MOTOR_POWER = 1.0;
     }
+
+    /**
+     * Constants for the Serializer
+     */
+    public final static class Serializer {
+        /******** Motor CAN ID's ********/
+        public static final int BRUSH_MOTOR_ID = 5;
+        public static final int ACCLERATOR_MOTOR_ID = 6;
+
+        /******** Tuning Constants ********/
+        public static final double BRUSH_POWER = 1.0;
+        public static final double ACCLERATOR_POWER = 1.0;
+    }
 }
