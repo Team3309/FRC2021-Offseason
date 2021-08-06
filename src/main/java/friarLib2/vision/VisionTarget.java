@@ -2,6 +2,9 @@ package friarLib2.vision;
 
 import edu.wpi.first.wpilibj.geometry.Transform2d;
 
+/**
+ * Represents a target from a vision system
+ */
 public class VisionTarget {
 
     private double x; //X offset from crosshair (Yaw)

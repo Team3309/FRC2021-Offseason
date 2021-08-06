@@ -41,7 +41,7 @@ public class PIDParameters {
     }
 
     /**
-     * Helper method to initialize a TalonFX's PID parameters
+     * Helper method to initialize a TalonSRX's PID parameters
      * 
      * @param motor motor to configure
      * @param PID PID parameters
