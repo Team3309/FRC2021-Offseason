@@ -88,5 +88,10 @@ public final class Constants {
         public static final double LIMIT_SWITCH_ANGLE = -10; // The angle that the arm is at when the limit switch is triggered
 
         public static final double ARM_GEAR_RATIO = 45.0 / 1;
+
+        /******** Arm Location Presets ********/
+        public static final double START_CONFIG_ANGLE = 30; // Angle where robot fits in starting config
+        public static final double STOWED_ANGLE = -5; // Angle where robot fits under the Wheel of Fortune (WOF)
+        public static final double INTAKE_ANGLE = -10; // Angle required for intaking power cells
     }
 }

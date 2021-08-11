@@ -76,6 +76,10 @@ public class ShooterSubsystem extends SubsystemBase {
         armMotor.setSelectedSensorPosition(UnitConversions.Shooter.armDegreesToEncoderTicks(Constants.Shooter.LIMIT_SWITCH_ANGLE));
     }
 
+    public double getArmPosition () {
+        return UnitConversions.Shooter.armEncoderTicksToDegrees(armMotor.getSelectedSensorPosition());
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run

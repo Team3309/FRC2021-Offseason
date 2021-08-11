@@ -32,7 +32,7 @@ public class UnitConversions {
             return degrees / 360 / Constants.Shooter.ARM_GEAR_RATIO * 2048;
         }
 
-        public static double armEncoderTicksToDegrees (int encoderTicks) {
+        public static double armEncoderTicksToDegrees (double encoderTicks) {
             return encoderTicks / armDegreesToEncoderTicks(1);
         }
     }
