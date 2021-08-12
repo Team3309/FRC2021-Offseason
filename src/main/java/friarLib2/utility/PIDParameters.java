@@ -1,9 +1,6 @@
 package friarLib2.utility;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
-import edu.wpi.first.wpilibj.Talon;
+import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 
 /**
  * Represents a set of PID constants
@@ -33,20 +30,7 @@ public class PIDParameters {
      * @param motor motor to configure
      * @param PID PID parameters
      */
-    public static void configureMotorPID (WPI_TalonFX motor, PIDParameters PID) {
-        motor.config_kP(0, PID.kP);
-        motor.config_kI(0, PID.kI);
-        motor.config_kD(0, PID.kD);
-        motor.config_kF(0, PID.kF);
-    }
-
-    /**
-     * Helper method to initialize a TalonSRX's PID parameters
-     * 
-     * @param motor motor to configure
-     * @param PID PID parameters
-     */
-    public static void configureMotorPID (WPI_TalonSRX motor, PIDParameters PID) {
+    public static void configureMotorPID (BaseTalon motor, PIDParameters PID) {
         motor.config_kP(0, PID.kP);
         motor.config_kI(0, PID.kI);
         motor.config_kD(0, PID.kD);
