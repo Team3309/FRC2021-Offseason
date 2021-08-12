@@ -27,9 +27,34 @@ public class DriveSubsystem extends SubsystemBase {
         rightMaster.set(ControlMode.PercentOutput, right);
     }
 
+    /**
+     * Set the speeds of each side of the drivetrain in meters per
+     * second
+     * 
+     * @param left
+     * @param right
+     */
     public void setDriveSpeeds (double left, double right) {
         leftMaster.set(ControlMode.Velocity, UnitConversions.Drive.MPSToEncoderTicksPer100ms(left));
         rightMaster.set(ControlMode.Velocity, UnitConversions.Drive.MPSToEncoderTicksPer100ms(right));
+    }
+
+    /**
+     * Use the "arcade" control scheme to set drive power
+     * 
+     * @param throttle positive is forward
+     * @param turn positive is right
+     */
+    public void setDriveSpeedsArcade (double throttle, double turn) {
+        setDrivePower(throttle + turn, throttle - turn);
+    }
+
+    /**
+     * Stop the drivetrain
+     */
+    public void stop () {
+        leftMaster.stopMotor();
+        rightMaster.stopMotor();
     }
 
     /**

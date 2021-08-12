@@ -20,6 +20,7 @@ public final class Constants {
      * Global constants that do not belong to a subsystem
      */
     public static final int PCM_CAN_ID = 0;
+    public static final double JOYSTICK_DEADBAND = 0.05;
 
     /**
      * Constants for the drivetrain
