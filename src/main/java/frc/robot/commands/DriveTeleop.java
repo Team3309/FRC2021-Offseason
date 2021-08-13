@@ -8,7 +8,7 @@ import frc.robot.subsystems.DriveSubsystem;
 /**
  * Manual control of the robot
  */
-public class DriveTeleop extends CommandBase{
+public class DriveTeleop extends CommandBase {
     DriveSubsystem drive;
 
     public DriveTeleop (DriveSubsystem drive) {

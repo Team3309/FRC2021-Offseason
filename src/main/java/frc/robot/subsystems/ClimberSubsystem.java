@@ -17,7 +17,7 @@ public class ClimberSubsystem extends SubsystemBase {
      * True if the climber has been extended at any point after the
      * robot has been powered on 
      */
-    private boolean hasBeenExtended = false;
+    public boolean hasBeenExtended = false;
 
     public ClimberSubsystem () {
         winchMotor = new WPI_TalonFX(Constants.Climber.WINCH_MOTOR_ID);
