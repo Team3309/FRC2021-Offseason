@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveTeleop;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SerializerSubsystem;
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private final ArmSubsystem arm = new ArmSubsystem();
   private final DriveSubsystem drive = new DriveSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final SerializerSubsystem serializer = new SerializerSubsystem();

@@ -27,9 +27,11 @@ public class UnitConversions {
         public static double flywheelRPMToEncoderTicksPer100ms (double RPM) {
             return RPM / flywheelEncoderTicksPer100msToRPM(1);
         }
+    }
 
+    public static class Arm {
         public static double armDegreesToEncoderTicks (double degrees) {
-            return degrees / 360 / Constants.Shooter.ARM_GEAR_RATIO * 2048;
+            return degrees / 360 / Constants.Arm.ARM_GEAR_RATIO * 2048;
         }
 
         public static double armEncoderTicksToDegrees (double encoderTicks) {

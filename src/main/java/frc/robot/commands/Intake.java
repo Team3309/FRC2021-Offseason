@@ -2,28 +2,28 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SerializerSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
 public class Intake extends CommandBase {
 
     IntakeSubsystem intake;
     SerializerSubsystem serializer;
-    ShooterSubsystem shooter;
+    ArmSubsystem arm;
 
-    public Intake (IntakeSubsystem intake, SerializerSubsystem serializer, ShooterSubsystem shooter) {
+    public Intake (IntakeSubsystem intake, SerializerSubsystem serializer, ArmSubsystem arm) {
         this.intake = intake;
         this.serializer = serializer;
-        this.shooter = shooter;
+        this.arm = arm;
 
-        addRequirements(intake, serializer, shooter);
+        addRequirements(intake, serializer, arm);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        shooter.setArmPosition(Constants.Shooter.INTAKE_ANGLE);
+        arm.setArmPosition(Constants.Arm.INTAKE_ANGLE);
         intake.deploy();
         serializer.activateBrushes();
     }
