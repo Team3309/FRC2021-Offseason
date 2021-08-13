@@ -23,6 +23,20 @@ public final class Constants {
     public static final double JOYSTICK_DEADBAND = 0.05;
 
     /**
+     * Constants of the climber
+     */
+    public static final class Climber {
+        /******** Motor CAN ID's ********/
+        public static final int WINCH_MOTOR_ID = 9;
+
+        /******** Pneumatics ********/
+        public static final int PCM_PORT = 2;
+
+        /******** Tuning Constatnts ********/
+        public static final double WINCH_POWER = .4;
+    }
+
+    /**
      * Constants for the drivetrain
      */
     public final static class Drive {
