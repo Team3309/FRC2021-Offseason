@@ -62,6 +62,9 @@ dependencies {
     // Websocket extensions require additional configuration.
     // simulation wpi.deps.sim.ws_server(wpi.platforms.desktop, false)
     // simulation wpi.deps.sim.ws_client(wpi.platforms.desktop, false)
+
+    // https://mvnrepository.com/artifact/org.ini4j/ini4j
+    implementation("org.ini4j:ini4j:0.5.4")
 }
 
 // Simulation configuration (e.g. environment variables).
@@ -76,4 +79,8 @@ sim {
 jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+}
+
+repositories {
+    mavenCentral()
 }
