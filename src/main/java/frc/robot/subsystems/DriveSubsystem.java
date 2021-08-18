@@ -1,8 +1,12 @@
 package frc.robot.subsystems;
 
+import com.analog.adis16470.frc.ADIS16470_IMU;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.UnitConversions;
@@ -16,10 +20,17 @@ public class DriveSubsystem extends SubsystemBase {
 
     private WPI_TalonFX rightMaster = new WPI_TalonFX(Constants.Drive.RIGHT_MASTER_ID);
     private WPI_TalonFX rightSlave = new WPI_TalonFX(Constants.Drive.RIGHT_SLAVE_ID);
+
+    private ADIS16470_IMU imu;
+    private DifferentialDriveOdometry odometry;
+    private Pose2d currentRobotPose = new Pose2d();
     
     public DriveSubsystem () {
         configureMotors(leftMaster, leftSlave);
         configureMotors(rightMaster, rightSlave);
+
+        imu = new ADIS16470_IMU();
+        odometry = new DifferentialDriveOdometry(getRobotRotation());
     }
 
     public void setDrivePower (double left, double right) {
@@ -72,8 +83,42 @@ public class DriveSubsystem extends SubsystemBase {
         slave.setInverted(true);
     }
 
+    /**
+     * Get the current robot pose according to dead-reckoning odometry
+     * See https://docs.wpilib.org/en/stable/docs/software/kinematics-and-odometry/swerve-drive-odometry.html for more details
+     * 
+     * @return Current robot pose
+     */
+    public Pose2d getRobotPose () {
+        return currentRobotPose;
+    }
+
+    /**
+     * Use the IMU to read the robot's yaw
+     * 
+     * @return Rotation2d representing IMU's measured angle
+     */
+    public Rotation2d getRobotRotation () {
+        double angle = imu.getAngle();
+        return Rotation2d.fromDegrees(angle);
+    }
+
+    /**
+     * Set the odometry readings
+     * 
+     * @param pose Pose to be written to odometry
+     * @param rotation Roatation to be written to odometry
+     */
+    public void resetOdometry (Pose2d pose, Rotation2d rotation) {
+        odometry.resetPosition(pose, rotation);
+    }
+
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        currentRobotPose = odometry.update(
+            getRobotRotation(), 
+            UnitConversions.Drive.encoderTicksToMeters(leftMaster.getSelectedSensorPosition()), 
+            UnitConversions.Drive.encoderTicksToMeters(rightMaster.getSelectedSensorPosition())
+        );
     }
 }

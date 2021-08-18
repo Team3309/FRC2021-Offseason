@@ -14,6 +14,10 @@ public class UnitConversions {
             return (meters / wheelCircumferenceMeters) / (Constants.Drive.GEAR_RATIO) * 2048;
         }
 
+        public static double encoderTicksToMeters (double encoderTicks) {
+            return encoderTicks / metersToEncoderTicks(1);
+        }
+
         public static double MPSToEncoderTicksPer100ms (double metersPerSecond) {
             return metersPerSecond * metersToEncoderTicks(metersPerSecond) * (1.0/10.0);
         }
