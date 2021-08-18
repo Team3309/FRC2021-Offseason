@@ -24,6 +24,8 @@ public class PIDParameters {
         this.kD = kD;
     }
 
+    public PIDParameters () {}
+
     /**
      * Helper method to initialize a TalonFX's PID parameters
      * 

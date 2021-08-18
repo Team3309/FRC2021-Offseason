@@ -4,104 +4,49 @@
 
 package frc.robot;
 
-import friarLib2.utility.PIDParameters;
+import java.io.IOException;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Arrays;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import friarLib2.utility.INIConfigFile;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean constants. This class should not be used for any other
+ * purpose. All constants should be declared globally (i.e. public static). Do
+ * not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static final byte[] TWENTY_TWENTY_ROBOT_MAC_ADDR = {};
+    public static final byte[] TWENTY_TWENTY_ONE_ROBOT_MAC_ADDR = {};
 
-    /*
-     * Global constants that do not belong to a subsystem
-     */
-    public static final int PCM_CAN_ID = 0;
-    public static final double JOYSTICK_DEADBAND = 0.05;
+    public static INIConfigFile robotCfg;
 
-    /**
-     * Constants for the arm
-     */
-    public final static class Arm {
-        /******** Motor CAN ID's ********/
-        public static final int ARM_MOTOR_ID = 8;
-
-        /******** PID Constants ********/
-        public static final PIDParameters ARM_PID = new PIDParameters(0.2, 2.54972071e-05, 10.0); // Gains taken from 2020 robot
-
-        /******** Physical Constants ********/
-        public static final int LIMIT_SWITCH_PORT = 0; // Digital input port on the RoboRIO that the arm's limit switch is connected too
-        public static final double LIMIT_SWITCH_ANGLE = -10; // The angle that the arm is at when the limit switch is triggered
-
-        public static final double ARM_GEAR_RATIO = 45.0 / 1;
-
-        /******** Arm Location Presets ********/
-        public static final double START_CONFIG_ANGLE = 30; // Angle where robot fits in starting config
-        public static final double STOWED_ANGLE = -5; // Angle where robot fits under the Wheel of Fortune (WOF)
-        public static final double INTAKE_ANGLE = -10; // Angle required for intaking power cells
-    }
-
-    /**
-     * Constants for the drivetrain
-     */
-    public final static class Drive {
-        /******** Motor CAN ID's ********/
-        public static final int LEFT_MASTER_ID = 0;
-        public static final int LEFT_SLAVE_ID = 1;
-
-        public static final int RIGHT_MASTER_ID = 2;
-        public static final int RIGHT_SLAVE_ID = 3;
-
-        /******** PID Constants ********/
-        public static final PIDParameters PID_CONSTANTS = new PIDParameters(0.1, 0, 0);
-
-        /******** Physical Constants ********/
-        public static final double GEAR_RATIO = 10.7;
-        public static final double WHEEL_DIAMETER = 6; // Inches
-    }
-
-    /**
-     * Constants for the intake
-     */
-    public final static class Intake {
-        /******** Motor CAN ID's ********/
-        public static final int MOTOR_ID = 4;
-
-        /******** Pneumatics ********/
-        public static final int FIRST_PCM_PORT = 0;
-        public static final int SECOND_PCM_PORT = 1;
-
-        /******** Tuning Constants ********/
-        public static final double MOTOR_POWER = 1.0;
-    }
-
-    /**
-     * Constants for the Serializer
-     */
-    public final static class Serializer {
-        /******** Motor CAN ID's ********/
-        public static final int BRUSH_MOTOR_ID = 5;
-        public static final int ACCLERATOR_MOTOR_ID = 6;
-
-        /******** Tuning Constants ********/
-        public static final double BRUSH_POWER = 1.0;
-        public static final double ACCLERATOR_POWER = 1.0;
-    }
-
-    /**
-     * Constants for the Shooter
-     */
-    public final static class Shooter {
-        /******** Motor CAN ID's ********/
-        public static final int FLYWHEEL_MOTOR_ID = 7;
-
-        /******** PID Constants ********/
-        public static final PIDParameters FLYWHEEL_PID = new PIDParameters(0.1, 0, 0);
-
-        /******** Tuning Constants ********/
-        public static final int FLYWHEEL_SPEED_TOLERANCE = 50; // Only shoot powercells if flywheels are within this range of their target speed
+    static {
+        try {
+            byte[] rioMac = NetworkInterface.getByName("eth0").getHardwareAddress();
+            if (Arrays.equals(rioMac, TWENTY_TWENTY_ONE_ROBOT_MAC_ADDR)) {
+                robotCfg = new INIConfigFile("2021-offseason-robot.ini");
+            } else if (Arrays.equals(rioMac, TWENTY_TWENTY_ROBOT_MAC_ADDR)) {
+                robotCfg = new INIConfigFile("2020-robot-cfg.ini");
+            } else {
+                StringBuilder foundMAC = new StringBuilder();
+                for (byte macOctet : rioMac) {
+                    foundMAC.append(String.format("0x%02X", macOctet));
+                    foundMAC.append(" ");
+                }
+                DriverStation.reportError("Running on unknown roboRIO with MAC " + foundMAC, false);
+                System.err.println("Running on unknown roboRIO with MAC " + foundMAC);
+                System.exit(-1); // make the world stop
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
