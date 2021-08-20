@@ -6,12 +6,15 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.Climb;
 import frc.robot.commands.DriveTeleop;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SerializerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -21,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private final ClimberSubsystem climber = new ClimberSubsystem();
   private final DriveSubsystem drive = new DriveSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final SerializerSubsystem serializer = new SerializerSubsystem();
@@ -44,7 +48,16 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+
+    /** Deploy the climber when the left bumper is pressed */
+    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kBumperLeft.value)
+    .whenPressed(() -> climber.deploy());
+
+    /** When the left trigger is pressed, activate the winch motor */
+    new JoystickButton(OperatorInterface.OperatorController, XboxController.Axis.kLeftTrigger.value)
+    .whileActiveOnce(new Climb(climber));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
