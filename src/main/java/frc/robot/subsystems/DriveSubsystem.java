@@ -6,7 +6,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.UnitConversions;
@@ -23,13 +27,17 @@ public class DriveSubsystem extends SubsystemBase {
 
     private ADIS16470_IMU imu;
     private DifferentialDriveOdometry odometry;
+    private DifferentialDriveKinematics kinematics;
     private Pose2d currentRobotPose = new Pose2d();
+
+    
     
     public DriveSubsystem () {
         configureMotors(leftMaster, leftSlave);
         configureMotors(rightMaster, rightSlave);
 
         imu = new ADIS16470_IMU();
+        kinematics = new DifferentialDriveKinematics(Constants.Drive.DRIVE_BASE_WIDTH);
         odometry = new DifferentialDriveOdometry(getRobotRotation());
     }
 
@@ -59,6 +67,19 @@ public class DriveSubsystem extends SubsystemBase {
     public void setDriveSpeedsArcade (double throttle, double turn) {
         setDrivePower(throttle + turn, throttle - turn);
     }
+    
+    /**
+     * Perform kinematics to set the forward and angular
+     * speeds of the robot
+     * 
+     * @param speeds
+     */
+    public void setChassisSpeeds(ChassisSpeeds speeds) {
+        DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(speeds);
+        setDriveSpeeds(
+            wheelSpeeds.leftMetersPerSecond, 
+            wheelSpeeds.rightMetersPerSecond);
+	}
 
     /**
      * Stop the drivetrain
