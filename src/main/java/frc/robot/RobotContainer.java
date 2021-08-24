@@ -15,6 +15,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SerializerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -54,7 +55,7 @@ public class RobotContainer {
 
     /** Deploy the climber when the left bumper is pressed */
     new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kBumperLeft.value)
-    .whenPressed(() -> climber.deploy());
+    .whenPressed(() -> climber.deploy(), climber);
 
     /** When the left trigger is pressed, activate the winch motor */
     new JoystickButton(OperatorInterface.OperatorController, XboxController.Axis.kLeftTrigger.value)
