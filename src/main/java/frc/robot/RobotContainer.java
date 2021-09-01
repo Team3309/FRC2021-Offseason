@@ -58,8 +58,8 @@ public class RobotContainer {
     .whenPressed(() -> climber.deploy(), climber);
 
     /** When the left trigger is pressed, activate the winch motor */
-    new JoystickButton(OperatorInterface.OperatorController, XboxController.Axis.kLeftTrigger.value)
-    .whileActiveOnce(new Climb(climber));
+    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kBumperRight.value)
+    .whenActive(new Climb(climber));
   }
 
   /**

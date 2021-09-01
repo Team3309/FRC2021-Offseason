@@ -18,8 +18,8 @@ public class DriveSubsystem extends SubsystemBase {
     private WPI_TalonFX rightSlave = new WPI_TalonFX(Constants.Drive.RIGHT_SLAVE_ID);
     
     public DriveSubsystem () {
-        configureMotors(leftMaster, leftSlave);
-        configureMotors(rightMaster, rightSlave);
+        configureMotors(leftMaster, leftSlave, false);
+        configureMotors(rightMaster, rightSlave, true);
     }
 
     public void setDrivePower (double left, double right) {
@@ -63,13 +63,14 @@ public class DriveSubsystem extends SubsystemBase {
      * @param master other motor follows this one
      * @param slave follows the master
      */
-    private void configureMotors (WPI_TalonFX master, WPI_TalonFX slave) {
+    private void configureMotors (WPI_TalonFX master, WPI_TalonFX slave, boolean inverted) {
         master.configFactoryDefault();
         PIDParameters.configureMotorPID(master, Constants.Drive.PID_CONSTANTS);
+        master.setInverted(inverted);
 
         slave.configFactoryDefault();
         slave.follow(master);
-        slave.setInverted(true);
+        slave.setInverted(inverted);
     }
 
     @Override
