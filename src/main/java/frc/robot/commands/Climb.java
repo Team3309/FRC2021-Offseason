@@ -28,7 +28,7 @@ public class Climb extends CommandBase {
 
     @Override
     public void execute() {
-        double winchPower = OperatorInterface.applyDeadband(OperatorInterface.OperatorController.getTriggerAxis(Hand.kLeft), Constants.XBOX_DEADBAND);
+        double winchPower = OperatorInterface.OperatorController.getTriggerAxis(Hand.kLeft);
         climber.activateWinch(winchPower);
     }
 

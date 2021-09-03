@@ -2,8 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import friarLib2.hid.Joystick3309;
+import friarLib2.hid.XboxController3309;
 
 /**
  * Contains static references to controllers and joysticks
@@ -11,8 +12,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class OperatorInterface
 {
     // Joysticks
-    public static Joystick DriverLeft = new Joystick(0);
-    public static Joystick DriverRight = new Joystick(1);
+    public static Joystick3309 DriverLeft = new Joystick3309(0, Constants.JOYSTICK_DEADBAND);
+    public static Joystick3309 DriverRight = new Joystick3309(1, Constants.JOYSTICK_DEADBAND);
 
     public static ClusterGroup leftStickLeftCluster = new ClusterGroup(DriverLeft, GenericHID.Hand.kLeft);
     public static ClusterGroup leftStickRightCluster = new ClusterGroup(DriverLeft, GenericHID.Hand.kLeft);
@@ -20,7 +21,7 @@ public class OperatorInterface
     public static ClusterGroup rightStickRightCluster = new ClusterGroup(DriverRight, GenericHID.Hand.kRight);
 
     // Xbox controller
-    public static XboxController OperatorController = new XboxController(2);
+    public static XboxController3309 OperatorController = new XboxController3309(2, Constants.XBOX_DEADBAND);
 
 
     /**
@@ -69,17 +70,5 @@ public class OperatorInterface
                         stick.getRawButton(RIGHT_CLUSTER_6_ID);
             }
         }
-    }
-
-    /**
-     * Return zero if the absolute value of joystickValue is less than deadband, else, return joystickValue.
-     * Ueseful for ensuring a zero value when a joystick is released.
-     * 
-     * @param joystickValue the value of the joystick axis
-     * @param deadband the deadband to apply
-     * @return the adjusted joystickValue
-     */
-    public static double applyDeadband (double joystickValue, double deadband) {
-        return (Math.abs(joystickValue) > deadband) ? joystickValue : 0;
     }
 }

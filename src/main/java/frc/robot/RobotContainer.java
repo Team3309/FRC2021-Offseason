@@ -14,6 +14,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SerializerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import friarLib2.hid.LambdaTrigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -58,8 +59,8 @@ public class RobotContainer {
     .whenPressed(() -> climber.deploy(), climber);
 
     /** When the left trigger is pressed, activate the winch motor */
-    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kBumperRight.value)
-    .whenActive(new Climb(climber));
+    new LambdaTrigger(() -> {return true;})
+    .whileActiveOnce(new Climb(climber));
   }
 
   /**

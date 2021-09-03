@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -20,8 +19,8 @@ public class DriveTeleop extends CommandBase {
     @Override
     public void execute() {
       // Read the joystick values and apply deadband
-      double throttle = OperatorInterface.applyDeadband(OperatorInterface.DriverLeft.getY(), Constants.JOYSTICK_DEADBAND);
-      double turn = -OperatorInterface.applyDeadband(OperatorInterface.DriverRight.getX(), Constants.JOYSTICK_DEADBAND);
+      double throttle = OperatorInterface.DriverLeft.getY();
+      double turn = OperatorInterface.DriverRight.getX();
 
       drive.setDriveSpeedsArcade(throttle, turn);
     }
