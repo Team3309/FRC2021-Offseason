@@ -28,10 +28,10 @@ public final class Constants {
      */
     public static final class Climber {
         /******** Motor CAN ID's ********/
-        public static final int WINCH_MOTOR_ID = 9;
+        public static final int WINCH_MOTOR_ID = 13;
 
         /******** Pneumatics ********/
-        public static final int PCM_PORT = 2;
+        public static final int PCM_PORT = 3;
 
         /******** Tuning Constatnts ********/
         public static final double WINCH_POWER = .4;
@@ -42,7 +42,7 @@ public final class Constants {
      */
     public final static class Arm {
         /******** Motor CAN ID's ********/
-        public static final int ARM_MOTOR_ID = 8;
+        public static final int ARM_MOTOR_ID = 3;
 
         /******** PID Constants ********/
         public static final PIDParameters ARM_PID = new PIDParameters(0.2, 2.54972071e-05, 10.0); // Gains taken from 2020 robot
@@ -64,14 +64,14 @@ public final class Constants {
      */
     public final static class Drive {
         /******** Motor CAN ID's ********/
-        public static final int LEFT_MASTER_ID = 0;
-        public static final int LEFT_SLAVE_ID = 1;
+        public static final int LEFT_MASTER_ID = 4;
+        public static final int LEFT_SLAVE_ID = 16;
 
-        public static final int RIGHT_MASTER_ID = 2;
-        public static final int RIGHT_SLAVE_ID = 3;
+        public static final int RIGHT_MASTER_ID = 15;
+        public static final int RIGHT_SLAVE_ID = 1;
 
         /******** PID Constants ********/
-        public static final PIDParameters PID_CONSTANTS = new PIDParameters(0.1, 0, 0);
+        public static final PIDParameters PID_CONSTANTS = new PIDParameters(0.02, 0.00015, 0.002);
 
         /******** Physical Constants ********/
         public static final double GEAR_RATIO = 10.7;
@@ -83,11 +83,11 @@ public final class Constants {
      */
     public final static class Intake {
         /******** Motor CAN ID's ********/
-        public static final int MOTOR_ID = 4;
+        public static final int MOTOR_ID = 20;
 
         /******** Pneumatics ********/
-        public static final int FIRST_PCM_PORT = 0;
-        public static final int SECOND_PCM_PORT = 1;
+        public static final int FIRST_PCM_PORT = 1;
+        public static final int SECOND_PCM_PORT = 2;
 
         /******** Tuning Constants ********/
         public static final double MOTOR_POWER = 1.0;
