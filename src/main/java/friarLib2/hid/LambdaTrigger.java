@@ -12,7 +12,6 @@ public class LambdaTrigger extends Trigger {
 
     @Override
     public boolean get () {
-        System.out.println(condition.get());
         return condition.get();
     }
 
