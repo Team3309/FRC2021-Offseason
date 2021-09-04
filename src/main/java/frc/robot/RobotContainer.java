@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.Climb;
 import frc.robot.commands.DriveTeleop;
 import frc.robot.subsystems.ArmSubsystem;
@@ -59,8 +60,8 @@ public class RobotContainer {
     .whenPressed(() -> climber.deploy(), climber);
 
     /** When the left trigger is pressed, activate the winch motor */
-    new LambdaTrigger(() -> {return true;})
-    .whileActiveOnce(new Climb(climber));
+    new LambdaTrigger(() -> {return OperatorInterface.OperatorController.getTriggerAxis(Hand.kLeft) >= .1;})
+    .whileActiveContinuous(new Climb(climber));
   }
 
   /**
