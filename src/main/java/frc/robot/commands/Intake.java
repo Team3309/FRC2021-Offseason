@@ -32,6 +32,7 @@ public class Intake extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         intake.retract();
+        arm.setArmPosition(Constants.Arm.STOWED_ANGLE);
         serializer.disableBrushes();
     }
 

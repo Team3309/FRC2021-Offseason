@@ -11,7 +11,7 @@ public class UnitConversions {
         private static double wheelCircumferenceMeters = Units.inchesToMeters(Constants.Drive.WHEEL_DIAMETER) * Math.PI;
 
         public static double metersToEncoderTicks (double meters) {
-            return (meters / wheelCircumferenceMeters) / (Constants.Drive.GEAR_RATIO) * 2048;
+            return (meters / wheelCircumferenceMeters) / (Constants.Drive.GEAR_RATIO) * 2048.0;
         }
 
         public static double MPSToEncoderTicksPer100ms (double metersPerSecond) {
@@ -21,7 +21,7 @@ public class UnitConversions {
 
     public static class Shooter {
         public static double flywheelEncoderTicksPer100msToRPM (double encoderTicksPer100ms) {
-            return encoderTicksPer100ms / 2048.0 * 10 / 60;
+            return encoderTicksPer100ms / 2048.0 * 10.0 / 60.0;
         }
 
         public static double flywheelRPMToEncoderTicksPer100ms (double RPM) {
@@ -31,7 +31,7 @@ public class UnitConversions {
 
     public static class Arm {
         public static double armDegreesToEncoderTicks (double degrees) {
-            return degrees / 360 / Constants.Arm.ARM_GEAR_RATIO * 2048;
+            return degrees / 360.0 * Constants.Arm.ARM_GEAR_RATIO * 2048.0;
         }
 
         public static double armEncoderTicksToDegrees (double encoderTicks) {

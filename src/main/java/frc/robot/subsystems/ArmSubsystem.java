@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.UnitConversions;
@@ -25,6 +27,7 @@ public class ArmSubsystem extends SubsystemBase {
         armMotor = new WPI_TalonFX(Constants.Arm.ARM_MOTOR_ID);
         armMotor.configFactoryDefault();
         armMotor.setNeutralMode(NeutralMode.Brake);
+        armMotor.setInverted(true);
         PIDParameters.configureMotorPID(armMotor, Constants.Arm.ARM_PID);
 
         limitSwitch = new DigitalInput(Constants.Arm.LIMIT_SWITCH_PORT);
@@ -61,5 +64,8 @@ public class ArmSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+
+        SmartDashboard.putNumber("Arm setpoint", armMotor.getClosedLoopTarget());
+        SmartDashboard.putNumber("Arm setpoint degrees", UnitConversions.Arm.armEncoderTicksToDegrees(armMotor.getClosedLoopTarget()));
     }
 }
