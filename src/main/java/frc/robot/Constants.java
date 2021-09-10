@@ -76,6 +76,7 @@ public final class Constants {
         /******** Physical Constants ********/
         public static final double GEAR_RATIO = 10.7;
         public static final double WHEEL_DIAMETER = 6; // Inches
+        public static final double DRIVE_BASE_WIDTH = 0.5969; // Meters; 25.5 inches
     }
 
     /**
