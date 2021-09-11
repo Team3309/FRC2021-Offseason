@@ -118,5 +118,21 @@ public final class Constants {
 
         /******** Tuning Constants ********/
         public static final int FLYWHEEL_SPEED_TOLERANCE = 50; // Only shoot powercells if flywheels are within this range of their target speed
+
+        /**
+         * A 2D array for tuning the shooter.
+         * 
+         * <p>The first value in each sub-array is the distance in meters from the goal.
+         * The second one is the angle of the shooter, found through manual tuning, to
+         * shoot into the goal at that distance.
+         * 
+         * <p>ShooterSubsystem computes a linear regression to fill in the relationship
+         * between distance and angle.
+         */
+        public static double[][] AIM_REGRESSION_DATA = {
+            {1, 80},
+            {2, 70},
+            {3, 60}
+        };
     }
 }

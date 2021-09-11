@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.UnitConversions;
+import frc.robot.Vision;
+import friarLib2.math.LinearRegression;
 import friarLib2.utility.PIDParameters;
 
 /**
@@ -21,6 +23,8 @@ public class ArmSubsystem extends SubsystemBase {
     private WPI_TalonFX armMotor;
     private DigitalInput limitSwitch;
 
+    private LinearRegression regression;
+
     public ArmSubsystem () {
         armMotor = new WPI_TalonFX(Constants.Arm.ARM_MOTOR_ID);
         armMotor.configFactoryDefault();
@@ -29,6 +33,8 @@ public class ArmSubsystem extends SubsystemBase {
 
         limitSwitch = new DigitalInput(Constants.Arm.LIMIT_SWITCH_PORT);
         zeroArmPosition();
+
+        regression = new LinearRegression(Constants.Shooter.AIM_REGRESSION_DATA);
     }
 
     /**
@@ -56,6 +62,14 @@ public class ArmSubsystem extends SubsystemBase {
 
     public double getArmPosition () {
         return UnitConversions.Arm.armEncoderTicksToDegrees(armMotor.getSelectedSensorPosition());
+    }
+
+    /**
+     * Use the pre-tuned regression to set the position of arm based
+     * on the data from the limelight
+     */
+    public void aim () {
+        setArmPosition(regression.evaluate(Vision.getDistanceFromTarget(this)));
     }
 
     @Override

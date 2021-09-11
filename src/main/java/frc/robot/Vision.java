@@ -2,6 +2,7 @@ package frc.robot;
 
 import org.photonvision.PhotonCamera;
 
+import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.subsystems.ArmSubsystem;
 import friarLib2.vision.PhotonCameraWrapper;
 import friarLib2.vision.VisionCamera;
@@ -31,7 +32,9 @@ public class Vision {
             final double HEIGHT_OF_TARGET = 97.5 - (30.0 / 4.0);
 
             // See https://docs.limelightvision.io/en/latest/cs_estimating_distance.html
-            return (HEIGHT_OF_TARGET - heightOfCamera) / Math.tan(Math.toRadians(angleOfCamera) + Math.toRadians(p.calculateYAngle(mainCamera.getBestTarget())));
+            return Units.inchesToMeters(
+                (HEIGHT_OF_TARGET - heightOfCamera) / Math.tan(Math.toRadians(angleOfCamera) + Math.toRadians(p.calculateYAngle(mainCamera.getBestTarget())))
+            );
         }
     }
 }
