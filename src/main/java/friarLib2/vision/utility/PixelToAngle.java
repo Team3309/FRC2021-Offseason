@@ -14,7 +14,7 @@ public class PixelToAngle {
      * <p>Y is up/down and X is right/left
      * 
      * <p>See https://docs.limelightvision.io/en/latest/theory.html#from-pixels-to-angles
-     * 
+     * for theory and equations
      */
     public PixelToAngle (double resolutionX, double resolutionY, double horizontalFOV, double verticalFOV) {
         this.resolutionX = resolutionX;
@@ -27,7 +27,7 @@ public class PixelToAngle {
         viewplaneHeight = 2.0 * Math.tan(Math.toRadians(verticalFOV) / 2);
     }
 
-    public double calculateXAngle (double cameraAngle, double cameraXOffset, VisionTarget target) {
+    public double calculateXAngle (VisionTarget target) {
         // Normalize pixel coordinates so that they range from -1 to 1, with (0, 0) being the center of the image
         double normalizedX = (target.getX() - (resolutionX / 2.0)) / resolutionX;
 
@@ -38,7 +38,7 @@ public class PixelToAngle {
         return Math.atan2(1, x);
     }
 
-    public double calculateYAngle (double cameraAngle, double cameraXOffset, VisionTarget target) {
+    public double calculateYAngle (VisionTarget target) {
         // Normalize pixel coordinates so that they range from -1 to 1, with (0, 0) being the center of the image
         double normalizedY = ((resolutionY / 2.0) - target.getY()) / resolutionY;
 
