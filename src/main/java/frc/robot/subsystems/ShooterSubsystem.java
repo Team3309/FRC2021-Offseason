@@ -38,7 +38,7 @@ public class ShooterSubsystem extends SubsystemBase {
         return flywheelMotor.getClosedLoopError() <= Constants.Shooter.FLYWHEEL_SPEED_TOLERANCE;
     }
 
-    public void stopFlywheel () {
+    public void stopFlywheels () {
         flywheelMotor.stopMotor();
     }
 

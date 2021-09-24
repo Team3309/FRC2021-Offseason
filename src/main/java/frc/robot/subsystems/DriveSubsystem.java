@@ -45,7 +45,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param throttle positive is forward
      * @param turn positive is right
      */
-    public void setDriveSpeedsArcade (double throttle, double turn) {
+    public void setDrivePowerArcade (double throttle, double turn) {
         setDrivePower(throttle + turn, throttle - turn);
     }
 
@@ -65,7 +65,7 @@ public class DriveSubsystem extends SubsystemBase {
      */
     private void configureMotors (WPI_TalonFX master, WPI_TalonFX slave) {
         master.configFactoryDefault();
-        PIDParameters.configureMotorPID(master, Constants.Drive.PID_CONSTANTS);
+        PIDParameters.configureMotorPID(master, Constants.Drive.WHEEL_PID_CONSTANTS);
 
         slave.configFactoryDefault();
         slave.follow(master);
