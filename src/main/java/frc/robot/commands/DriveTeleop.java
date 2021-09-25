@@ -20,8 +20,8 @@ public class DriveTeleop extends CommandBase {
     @Override
     public void execute() {
       // Read the joystick values and apply deadband
-      double throttle = OperatorInterface.applyDeadband(OperatorInterface.DriverLeft.getY(), Constants.JOYSTICK_DEADBAND);
-      double turn = OperatorInterface.applyDeadband(OperatorInterface.DriverRight.getX(), Constants.JOYSTICK_DEADBAND);
+      double throttle = OperatorInterface.DriverLeft.getYWithDeadband();
+      double turn = OperatorInterface.DriverRight.getXWithDeadband();
 
       drive.setDriveSpeedsArcade(throttle, turn);
     }

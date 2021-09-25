@@ -1,31 +1,32 @@
 package friarLib2.hid;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
 
-/**
- * Represents an Xbox controller, but with built-in deadband application
- */
-public class XboxController3309 extends XboxController {
+public class Joystick3309 extends Joystick {
 
     private double deadband;
 
-    public XboxController3309 (final int port, double deadband) {
+    public Joystick3309 (final int port, double deadband) {
         super(port);
 
         this.deadband = deadband;
     }
-
+    
     public double getXWithDeadband (GenericHID.Hand hand) {
         return applyDeadband(super.getX(hand), deadband);
+    }
+
+    public double getXWithDeadband () {
+        return applyDeadband(super.getX(), deadband);
     }
 
     public double getYWithDeadband (GenericHID.Hand hand) {
         return applyDeadband(super.getY(hand), deadband);
     }
 
-    public double getTriggerAxisWithDeadband (GenericHID.Hand hand) {
-        return applyDeadband(super.getTriggerAxis(hand), deadband); 
+    public double getYWithDeadband () {
+        return applyDeadband(super.getY(), deadband);
     }
 
     /**
