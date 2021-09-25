@@ -1,5 +1,6 @@
 package friarLib2.hid;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -7,16 +8,24 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class Joystick3309 extends Joystick {
 
-    public double deadband;
+    private double deadband;
 
-    public Joystick3309(int port, double deadband) {
+    public Joystick3309 (final int port, double deadband) {
         super(port);
-        
+
         this.deadband = deadband;
-    }   
+    }
     
+    public double getXWithDeadband (GenericHID.Hand hand) {
+        return applyDeadband(super.getX(hand), deadband);
+    }
+
     public double getXWithDeadband () {
         return applyDeadband(super.getX(), deadband);
+    }
+
+    public double getYWithDeadband (GenericHID.Hand hand) {
+        return applyDeadband(super.getY(hand), deadband);
     }
 
     public double getYWithDeadband () {
