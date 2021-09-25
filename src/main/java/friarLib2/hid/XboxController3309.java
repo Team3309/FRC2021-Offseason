@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 
 /**
- * Represents an Xbox controller, but with built-in deadband application
+ * Represents an Xbox controller, but with built in deadband calculation
  */
 public class XboxController3309 extends XboxController {
 
-    private double deadband;
+    public double deadband;
 
     public XboxController3309 (final int port, double deadband) {
         super(port);

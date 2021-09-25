@@ -3,6 +3,9 @@ package friarLib2.hid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 
+/**
+ * Represents a joystick, but with built in deadband calculation
+ */
 public class Joystick3309 extends Joystick {
 
     private double deadband;

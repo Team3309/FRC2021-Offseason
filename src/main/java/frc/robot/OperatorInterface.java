@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import friarLib2.hid.Joystick3309;
 import friarLib2.hid.XboxController3309;
@@ -71,17 +70,5 @@ public class OperatorInterface
                         stick.getRawButton(RIGHT_CLUSTER_6_ID);
             }
         }
-    }
-
-    /**
-     * Return zero if the absolute value of joystickValue is less than deadband, else, return joystickValue.
-     * Ueseful for ensuring a zero value when a joystick is released.
-     * 
-     * @param joystickValue the value of the joystick axis
-     * @param deadband the deadband to apply
-     * @return the adjusted joystickValue
-     */
-    public static double applyDeadband (double joystickValue, double deadband) {
-        return (Math.abs(joystickValue) > deadband) ? joystickValue : 0;
     }
 }
