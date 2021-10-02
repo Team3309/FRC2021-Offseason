@@ -121,6 +121,7 @@ public final class Constants {
 
         /******** Tuning Constants ********/
         public static final int FLYWHEEL_SPEED_TOLERANCE = 50; // Only shoot powercells if flywheels are within this range of their target speed
+        public static final double FLYWHEEL_ROC_TOLERANCE = 10; // Only shoot powercells if the flywheels' speeds' rate of change is below this value
         public static final double SHOOTING_RPM = 3000;
 
         /**

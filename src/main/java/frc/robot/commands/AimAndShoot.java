@@ -47,7 +47,7 @@ public class AimAndShoot extends CommandBase {
             Constants.Drive.ROTATION_PID_CONTROLLER.calculate(Vision.mainCamera.getBestTarget().getX(), 0));
 
         // Shoot powercells
-        if (OperatorInterface.OperatorController.getAButton()) {
+        if (OperatorInterface.OperatorController.getAButton() && shooter.isFlywheelUpToSpeed()) {
             serializer.activateBrushes();
             serializer.activateAcclerator();
         } else {
