@@ -43,7 +43,6 @@ public class RobotContainer {
 
   private void configureDefaultCommands () {
     drive.setDefaultCommand(new DriveTeleop(drive));
-    shooter.setDefaultCommand(new InstantCommand(shooter::stopFlywheels, shooter));
   }
 
   /**
