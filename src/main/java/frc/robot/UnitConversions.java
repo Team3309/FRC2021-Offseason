@@ -11,7 +11,7 @@ public class UnitConversions {
         private static double wheelCircumferenceMeters = Units.inchesToMeters(Constants.Drive.WHEEL_DIAMETER) * Math.PI;
 
         public static double metersToEncoderTicks (double meters) {
-            return (meters / wheelCircumferenceMeters) / (Constants.Drive.GEAR_RATIO) * 2048.0;
+            return (meters / wheelCircumferenceMeters) * (Constants.Drive.GEAR_RATIO) * 2048.0;
         }
 
         public static double encoderTicksToMeters (double encoderTicks) {

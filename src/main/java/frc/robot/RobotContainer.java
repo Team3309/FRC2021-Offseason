@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.Climb;
 import frc.robot.commands.DriveTeleop;
+import frc.robot.commands.DriveTest;
 import frc.robot.commands.Intake;
+import frc.robot.commands.autos.FollowTrajectory;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -67,6 +69,9 @@ public class RobotContainer {
 
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getAButton())
     .whileActiveContinuous(new Intake(intake, serializer, arm));
+
+    new LambdaTrigger(() -> OperatorInterface.DriverLeft.getTrigger() || OperatorInterface.DriverRight.getTrigger())
+    .whenActive(new FollowTrajectory(drive, "Unnamed_0.wpilib.json"));
   }
 
   /**

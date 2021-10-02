@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -33,8 +34,8 @@ public class DriveSubsystem extends SubsystemBase {
     
     
     public DriveSubsystem () {
-        configureMotors(leftMaster, leftSlave, false);
-        configureMotors(rightMaster, rightSlave, true);
+        configureMotors(leftMaster, leftSlave, true);
+        configureMotors(rightMaster, rightSlave, false);
 
         imu = new ADIS16470_IMU();
         kinematics = new DifferentialDriveKinematics(Constants.Drive.DRIVE_BASE_WIDTH);
@@ -97,11 +98,12 @@ public class DriveSubsystem extends SubsystemBase {
      */
     private void configureMotors (WPI_TalonFX master, WPI_TalonFX slave, boolean inverted) {
         master.configFactoryDefault();
+        master.setInverted(inverted);
         PIDParameters.configureMotorPID(master, Constants.Drive.WHEEL_PID_CONSTANTS);
 
         slave.configFactoryDefault();
-        slave.follow(master);
         slave.setInverted(inverted);
+        slave.follow(master);
     }
 
     /**
@@ -141,5 +143,8 @@ public class DriveSubsystem extends SubsystemBase {
             UnitConversions.Drive.encoderTicksToMeters(leftMaster.getSelectedSensorPosition()), 
             UnitConversions.Drive.encoderTicksToMeters(rightMaster.getSelectedSensorPosition())
         );
+
+        SmartDashboard.putNumber("Left target", leftMaster.getClosedLoopTarget());
+        SmartDashboard.putNumber("Left speed", leftMaster.getSelectedSensorPosition());
     }
 }

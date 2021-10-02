@@ -7,10 +7,10 @@ import frc.robot.subsystems.DriveSubsystem;
 /**
  * Manual control of the robot
  */
-public class DriveTeleop extends CommandBase {
+public class DriveTest extends CommandBase {
     DriveSubsystem drive;
 
-    public DriveTeleop (DriveSubsystem drive) {
+    public DriveTest (DriveSubsystem drive) {
         this.drive = drive;
 
         addRequirements(drive);
@@ -22,7 +22,7 @@ public class DriveTeleop extends CommandBase {
       double throttle = -OperatorInterface.DriverLeft.getYWithDeadband();
       double turn = OperatorInterface.DriverRight.getXWithDeadband();
 
-      drive.setDrivePowerArcade(throttle, turn);
+      drive.setDriveSpeeds(1.0, 1.0);
     }
 
     // Called once the command ends or is interrupted.
