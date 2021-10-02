@@ -56,6 +56,19 @@ public class SerializerSubsystem extends SubsystemBase {
         accleratorMotor.stopMotor();
     }
 
+    /**
+     * Turn the acclerator on or off
+     * 
+     * @param on
+     */
+    public void setAcclerator (boolean on) {
+        if (on) {
+            activateAcclerator();
+        } else {
+            disableAcclerator();
+        }
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run

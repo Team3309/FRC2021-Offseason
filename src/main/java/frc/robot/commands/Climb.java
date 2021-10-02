@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.ClimberSubsystem;
 
@@ -28,7 +27,7 @@ public class Climb extends CommandBase {
 
     @Override
     public void execute() {
-        double winchPower = OperatorInterface.OperatorController.getTriggerAxis(Hand.kLeft);
+        double winchPower = OperatorInterface.OperatorController.getTriggerAxisWithDeadband(Hand.kLeft);
         climber.activateWinch(winchPower);
     }
 

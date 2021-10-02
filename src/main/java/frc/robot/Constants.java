@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
 import friarLib2.utility.PIDParameters;
 
 /**
@@ -55,8 +56,9 @@ public final class Constants {
 
         /******** Arm Location Presets ********/
         public static final double START_CONFIG_ANGLE = 30; // Angle where robot fits in starting config
-        public static final double STOWED_ANGLE = 50; // Angle where robot fits under the Wheel of Fortune (WOF)
-        public static final double INTAKE_ANGLE = 45; // Angle required for intaking power cells
+        public static final double STOWED_ANGLE = 0; // Angle where robot fits under the Wheel of Fortune (WOF)
+        public static final double INTAKE_ANGLE = 5; // Angle required for intaking power cells
+        public static final double VISION_SEEK_ANGLE = 15; // Angle for finding targets
     }
 
     /**
@@ -71,11 +73,13 @@ public final class Constants {
         public static final int RIGHT_SLAVE_ID = 1;
 
         /******** PID Constants ********/
-        public static final PIDParameters PID_CONSTANTS = new PIDParameters(0.02, 0.00015, 0.002);
+        public static final PIDParameters WHEEL_PID_CONSTANTS = new PIDParameters(0.1, 0, 0);
+        public static final PIDController ROTATION_PID_CONTROLLER = new PIDController(0.1, 0, 0);
 
         /******** Physical Constants ********/
         public static final double GEAR_RATIO = 10.7;
         public static final double WHEEL_DIAMETER = 6; // Inches
+        public static final double DRIVE_BASE_WIDTH = 0.5969; // Meters; 25.5 inches
     }
 
     /**
@@ -118,5 +122,23 @@ public final class Constants {
 
         /******** Tuning Constants ********/
         public static final int FLYWHEEL_SPEED_TOLERANCE = 50; // Only shoot powercells if flywheels are within this range of their target speed
+        public static final double FLYWHEEL_ROC_TOLERANCE = 10; // Only shoot powercells if the flywheels' speeds' rate of change is below this value
+        public static final double SHOOTING_RPM = 3000;
+
+        /**
+         * A 2D array for tuning the shooter.
+         * 
+         * <p>The first value in each sub-array is the distance in meters from the goal.
+         * The second one is the angle of the shooter, found through manual tuning, to
+         * shoot into the goal at that distance.
+         * 
+         * <p>ShooterSubsystem computes a linear regression to fill in the relationship
+         * between distance and angle.
+         */
+        public static double[][] AIM_REGRESSION_DATA = {
+            {1, 80},
+            {2, 70},
+            {3, 60}
+        };
     }
 }

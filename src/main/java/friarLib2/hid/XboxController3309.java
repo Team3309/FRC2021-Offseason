@@ -24,6 +24,10 @@ public class XboxController3309 extends XboxController {
         return applyDeadband(super.getY(hand), deadband);
     }
 
+    public double getTriggerAxisWithDeadband (GenericHID.Hand hand) {
+        return applyDeadband(super.getTriggerAxis(hand), deadband); 
+    }
+
     /**
      * Return zero if the absolute value of joystickValue is less than deadband, else, return joystickValue.
      * Ueseful for ensuring a zero value when a joystick is released.
