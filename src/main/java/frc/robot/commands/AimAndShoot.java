@@ -43,7 +43,7 @@ public class AimAndShoot extends CommandBase {
 
         // Move the robot to align with the target, while allowing the drivers to control throttle
         drive.setDrivePowerArcade(
-            OperatorInterface.applyDeadband(OperatorInterface.DriverLeft.getY(), Constants.JOYSTICK_DEADBAND), 
+            OperatorInterface.DriverLeft.getYWithDeadband(), 
             Constants.Drive.ROTATION_PID_CONTROLLER.calculate(Vision.mainCamera.getBestTarget().getX(), 0));
 
         // Shoot powercells
