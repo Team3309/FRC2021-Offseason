@@ -22,7 +22,7 @@ public class DriveTeleop extends CommandBase {
       double throttle = OperatorInterface.DriverLeft.getYWithDeadband();
       double turn = OperatorInterface.DriverRight.getXWithDeadband();
 
-      drive.setDriveSpeedsArcade(throttle, turn);
+      drive.setDrivePowerArcade(throttle, turn);
     }
 
     // Called once the command ends or is interrupted.
