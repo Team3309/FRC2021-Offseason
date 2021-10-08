@@ -145,6 +145,6 @@ public class DriveSubsystem extends SubsystemBase {
         );
 
         SmartDashboard.putNumber("Left target", leftMaster.getClosedLoopTarget());
-        SmartDashboard.putNumber("Left speed", leftMaster.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Left speed", leftMaster.getSelectedSensorVelocity());
     }
 }

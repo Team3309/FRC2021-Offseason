@@ -32,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
      * Extend intake and activate motor
      */
     public void deploy () {
-        intakePiston.set(Value.kForward);
+        intakePiston.set(Value.kReverse);
         intakeMotor.set(ControlMode.PercentOutput, Constants.Intake.MOTOR_POWER);
     }
 
@@ -40,7 +40,7 @@ public class IntakeSubsystem extends SubsystemBase {
      * Retract intake and stop motor
      */
     public void retract () {
-        intakePiston.set(Value.kReverse);
+        intakePiston.set(Value.kForward);
         intakeMotor.stopMotor();
     }
 

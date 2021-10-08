@@ -94,7 +94,7 @@ public final class Constants {
         public static final int SECOND_PCM_PORT = 2;
 
         /******** Tuning Constants ********/
-        public static final double MOTOR_POWER = 1.0;
+        public static final double MOTOR_POWER = 1;
     }
 
     /**
