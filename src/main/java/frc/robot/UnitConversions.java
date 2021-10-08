@@ -19,7 +19,11 @@ public class UnitConversions {
         }
 
         public static double MPSToEncoderTicksPer100ms (double metersPerSecond) {
-            return metersPerSecond * metersToEncoderTicks(metersPerSecond) * (1.0/10.0);
+            return metersToEncoderTicks(metersPerSecond) * (1.0/10.0);
+        }
+
+        public static double EncoderTicksPer100mstoMPS (double encoderTicksPer100ms) {
+            return encoderTicksPer100ms / MPSToEncoderTicksPer100ms(1);
         }
     }
 

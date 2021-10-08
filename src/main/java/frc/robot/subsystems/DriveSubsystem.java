@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,7 +32,7 @@ public class DriveSubsystem extends SubsystemBase {
     private DifferentialDriveKinematics kinematics;
     private Pose2d currentRobotPose = new Pose2d();
 
-    
+    private final Field2d f2d = new Field2d();
     
     public DriveSubsystem () {
         configureMotors(leftMaster, leftSlave, true);
@@ -40,6 +41,8 @@ public class DriveSubsystem extends SubsystemBase {
         imu = new ADIS16470_IMU();
         kinematics = new DifferentialDriveKinematics(Constants.Drive.DRIVE_BASE_WIDTH);
         odometry = new DifferentialDriveOdometry(getRobotRotation());
+
+        SmartDashboard.putData("Field", f2d);
     }
 
     public void setDrivePower (double left, double right) {
@@ -134,6 +137,8 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public void resetOdometry (Pose2d pose, Rotation2d rotation) {
         odometry.resetPosition(pose, rotation);
+        leftMaster.setSelectedSensorPosition(0);
+        rightMaster.setSelectedSensorPosition(0);
     }
 
     @Override
@@ -144,7 +149,9 @@ public class DriveSubsystem extends SubsystemBase {
             UnitConversions.Drive.encoderTicksToMeters(rightMaster.getSelectedSensorPosition())
         );
 
-        SmartDashboard.putNumber("Left target", leftMaster.getClosedLoopTarget());
-        SmartDashboard.putNumber("Left speed", leftMaster.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Left target", UnitConversions.Drive.EncoderTicksPer100mstoMPS(leftMaster.getClosedLoopTarget()));
+        SmartDashboard.putNumber("Left speed", UnitConversions.Drive.EncoderTicksPer100mstoMPS(leftMaster.getSelectedSensorVelocity()));
+
+        f2d.setRobotPose(currentRobotPose);
     }
 }

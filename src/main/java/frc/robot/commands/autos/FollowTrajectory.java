@@ -10,6 +10,9 @@ import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -27,6 +30,8 @@ public class FollowTrajectory extends CommandBase {
     private Timer timer = new Timer();
     private Trajectory trajectory;
 
+    private final Field2d f2d = new Field2d();
+
     public FollowTrajectory (DriveSubsystem drive, String trajectoryJSON) {
         this.drive = drive;
         addRequirements(drive);
@@ -37,6 +42,8 @@ public class FollowTrajectory extends CommandBase {
         ramseteController.setTolerance(new Pose2d(new Translation2d(.09, .09), Rotation2d.fromDegrees(10)));
 
         trajectory = openTrajectoryFromJSON(trajectoryJSON); //Load the pathweaver trajectory
+
+        SmartDashboard.putData("Trajectory", f2d);
     }
 
     // Called when the command is initially scheduled.
@@ -52,11 +59,17 @@ public class FollowTrajectory extends CommandBase {
     public void execute() {
         Trajectory.State goal = trajectory.sample(timer.get()); //Find the target pose for the current time
 
-        //Use the holonomic drive controller to calculate the requred chassis speeds to follow the trajectory
-        drive.setChassisSpeeds(ramseteController.calculate(
+        f2d.setRobotPose(goal.poseMeters);
+
+        ChassisSpeeds speeds = ramseteController.calculate(
             drive.getRobotPose(), 
             goal
-        ));
+        );
+
+        SmartDashboard.putNumber("X speed", speeds.vxMetersPerSecond);
+
+        //Use the holonomic drive controller to calculate the requred chassis speeds to follow the trajectory
+        drive.setChassisSpeeds(speeds);
     }
 
     // Called once the command ends or is interrupted.
