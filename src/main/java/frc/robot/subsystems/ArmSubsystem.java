@@ -32,6 +32,7 @@ public class ArmSubsystem extends SubsystemBase {
         armMotor.configFactoryDefault();
         armMotor.setNeutralMode(NeutralMode.Brake);
         armMotor.setInverted(true);
+        armMotor.setSelectedSensorPosition(UnitConversions.Arm.armDegreesToEncoderTicks(Constants.Arm.START_CONFIG_ANGLE));
         PIDParameters.configureMotorPID(armMotor, Constants.Arm.ARM_PID);
 
         limitSwitch = new DigitalInput(Constants.Arm.LIMIT_SWITCH_PORT);
@@ -81,5 +82,6 @@ public class ArmSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("Arm setpoint", armMotor.getClosedLoopTarget());
         SmartDashboard.putNumber("Arm setpoint degrees", UnitConversions.Arm.armEncoderTicksToDegrees(armMotor.getClosedLoopTarget()));
+        SmartDashboard.putNumber("Arm position degrees", UnitConversions.Arm.armEncoderTicksToDegrees(armMotor.getSelectedSensorPosition()));
     }
 }

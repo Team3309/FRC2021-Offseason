@@ -72,7 +72,8 @@ public class RobotContainer {
 
     new LambdaTrigger(() -> OperatorInterface.DriverLeft.getTrigger() || OperatorInterface.DriverRight.getTrigger())
     //.whenActive(new FollowTrajectory(drive, "Unnamed_0.wpilib.json"));
-    .whenActive(new DriveTest(drive));
+    //.whenActive(new DriveTest(drive));
+    .whileActiveContinuous(() -> arm.setArmPosition(Constants.Arm.VISION_SEEK_ANGLE), arm);
   }
 
   /**

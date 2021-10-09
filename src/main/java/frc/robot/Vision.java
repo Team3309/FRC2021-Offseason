@@ -12,7 +12,7 @@ import friarLib2.vision.utility.PixelToAngle;
  * Container for the vision systems
  */
 public class Vision {
-    public static VisionCamera mainCamera = new PhotonCameraWrapper("");
+    public static VisionCamera mainCamera = new PhotonCameraWrapper("gloworm");
 
     /**
      * @return the distance in meters from the target

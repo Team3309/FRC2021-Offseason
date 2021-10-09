@@ -55,10 +55,10 @@ public final class Constants {
         public static final double ARM_GEAR_RATIO = 45.0 / 1.0;
 
         /******** Arm Location Presets ********/
-        public static final double START_CONFIG_ANGLE = 30; // Angle where robot fits in starting config
-        public static final double STOWED_ANGLE = 0; // Angle where robot fits under the Wheel of Fortune (WOF)
-        public static final double INTAKE_ANGLE = 5; // Angle required for intaking power cells
-        public static final double VISION_SEEK_ANGLE = 15; // Angle for finding targets
+        public static final double START_CONFIG_ANGLE = -30; // Angle that arm is in when robot is turned on
+        public static final double STOWED_ANGLE = 15; // Angle where robot fits under the Wheel of Fortune (WOF)
+        public static final double INTAKE_ANGLE = 15; // Angle required for intaking power cells
+        public static final double VISION_SEEK_ANGLE = 90; // Angle for finding targets
     }
 
     /**
