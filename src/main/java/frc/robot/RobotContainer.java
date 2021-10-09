@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import frc.robot.commands.AimAndShoot;
 import frc.robot.commands.Climb;
 import frc.robot.commands.DriveTeleop;
 import frc.robot.commands.DriveTest;
@@ -73,7 +74,8 @@ public class RobotContainer {
     new LambdaTrigger(() -> OperatorInterface.DriverLeft.getTrigger() || OperatorInterface.DriverRight.getTrigger())
     //.whenActive(new FollowTrajectory(drive, "Unnamed_0.wpilib.json"));
     //.whenActive(new DriveTest(drive));
-    .whileActiveContinuous(() -> arm.setArmPosition(Constants.Arm.VISION_SEEK_ANGLE), arm);
+    //.whileActiveContinuous(() -> arm.setArmPosition(Constants.Arm.VISION_SEEK_ANGLE), arm);
+    .whileActiveContinuous(new AimAndShoot(drive, arm, serializer, shooter));
   }
 
   /**

@@ -56,9 +56,9 @@ public final class Constants {
 
         /******** Arm Location Presets ********/
         public static final double START_CONFIG_ANGLE = -30; // Angle that arm is in when robot is turned on
-        public static final double STOWED_ANGLE = 15; // Angle where robot fits under the Wheel of Fortune (WOF)
-        public static final double INTAKE_ANGLE = 15; // Angle required for intaking power cells
-        public static final double VISION_SEEK_ANGLE = 90; // Angle for finding targets
+        public static final double STOWED_ANGLE = 35; // Angle where robot fits under the Wheel of Fortune (WOF)
+        public static final double INTAKE_ANGLE = 30; // Angle required for intaking power cells
+        public static final double VISION_SEEK_ANGLE = 120; // Angle for finding targets
     }
 
     /**
@@ -74,7 +74,7 @@ public final class Constants {
 
         /******** PID Constants ********/
         public static final PIDParameters WHEEL_PID_CONSTANTS = new PIDParameters(0.4, 0.01, 0);
-        public static final PIDController ROTATION_PID_CONTROLLER = new PIDController(0.1, 0, 0);
+        public static final PIDController ROTATION_PID_CONTROLLER = new PIDController(0.02, 0, 0.0005);
 
         /******** Physical Constants ********/
         public static final double GEAR_RATIO = 10.7;

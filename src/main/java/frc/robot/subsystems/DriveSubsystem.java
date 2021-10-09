@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsCo
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.UnitConversions;
+import frc.robot.Vision;
 import friarLib2.utility.PIDParameters;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -151,6 +152,10 @@ public class DriveSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("Left target", UnitConversions.Drive.EncoderTicksPer100mstoMPS(leftMaster.getClosedLoopTarget()));
         SmartDashboard.putNumber("Left speed", UnitConversions.Drive.EncoderTicksPer100mstoMPS(leftMaster.getSelectedSensorVelocity()));
+
+        if (Vision.mainCamera.hasTargets()) {
+            SmartDashboard.putNumber("VX", Vision.mainCamera.getBestTarget().getX());
+        }
 
         f2d.setRobotPose(currentRobotPose);
     }

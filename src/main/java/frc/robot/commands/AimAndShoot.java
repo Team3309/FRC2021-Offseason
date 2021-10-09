@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.OperatorInterface;
@@ -33,7 +34,7 @@ public class AimAndShoot extends CommandBase {
         }
 
         // Activate shooter
-        shooter.setFlywheelSpeed(Constants.Shooter.SHOOTING_RPM);
+        //shooter.setFlywheelSpeed(Constants.Shooter.SHOOTING_RPM); //TODO: Uncomment this line
     }
 
     @Override
@@ -41,10 +42,12 @@ public class AimAndShoot extends CommandBase {
         // Move the arm to aim at the target
         arm.aim();
 
+        double targetx = Vision.mainCamera.hasTargets() ? Vision.mainCamera.getBestTarget().getX() : 0;
+
         // Move the robot to align with the target, while allowing the drivers to control throttle
         drive.setDrivePowerArcade(
             OperatorInterface.DriverLeft.getYWithDeadband(), 
-            Constants.Drive.ROTATION_PID_CONTROLLER.calculate(Vision.mainCamera.getBestTarget().getX(), 0));
+            -Constants.Drive.ROTATION_PID_CONTROLLER.calculate(targetx, 0));
 
         // Shoot powercells
         if (OperatorInterface.OperatorController.getAButton() && shooter.isFlywheelUpToSpeed()) {
