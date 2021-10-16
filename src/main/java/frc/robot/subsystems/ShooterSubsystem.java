@@ -61,6 +61,13 @@ public class ShooterSubsystem extends SubsystemBase {
         outerFlywheelMaster.set(ControlMode.Velocity, UnitConversions.Shooter.outerFlywheelEncoderTicksPer100msToRPM(outerRPM));
     }
 
+    /**
+     * Set the flywheels to shooting speed (as defined in Constants.java)
+     */
+    public void activateFlywheels () {
+        setFlywheelSpeeds(Constants.Shooter.MAIN_FLYWHEEL_SHOOTING_RPM, Constants.Shooter.OUTER_FLYWHEEL_SHOOTING_RPM);
+    }
+
     public double getMainFlywheelSpeed () {
         return UnitConversions.Shooter.mainFlywheelEncoderTicksPer100msToRPM(mainFlywheelMaster.getSelectedSensorVelocity());
     }

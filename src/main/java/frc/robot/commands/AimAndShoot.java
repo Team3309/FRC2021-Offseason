@@ -33,7 +33,7 @@ public class AimAndShoot extends CommandBase {
         }
 
         // Activate shooter
-        shooter.setFlywheelSpeed(Constants.Shooter.SHOOTING_RPM);
+        shooter.activateFlywheels();
     }
 
     @Override
