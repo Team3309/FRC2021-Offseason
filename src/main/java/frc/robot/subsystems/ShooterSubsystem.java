@@ -17,17 +17,35 @@ import friarLib2.utility.PIDParameters;
  */
 public class ShooterSubsystem extends SubsystemBase {
 
-    private WPI_TalonFX flywheelMotor;
+    private WPI_TalonFX mainFlywheelMaster;
+    private WPI_TalonFX mainFlywheelSlave;
+    private WPI_TalonFX outerFlywheelMaster;
+    private WPI_TalonFX outerFlywheelSlave;
 
-    private double lastFlywheelSpeed = 0;
-    private double flywheelSpeedROC = 0; // Rate of change of the flywheel speed
+    private double lastMainFlywheelSpeed = 0;
+    private double lastOuterFlywheelSpeed = 0;
+    private double mainFlywheelSpeedROC = 0; // Rate of change of the flywheel speed
+    private double outerFlywheelSpeedROC = 0;
     private Timer t;
 
     public ShooterSubsystem () {
-        flywheelMotor = new WPI_TalonFX(Constants.Shooter.FLYWHEEL_MOTOR_ID);
-        flywheelMotor.configFactoryDefault();
-        flywheelMotor.setNeutralMode(NeutralMode.Coast);
-        PIDParameters.configureMotorPID(flywheelMotor, Constants.Shooter.FLYWHEEL_PID);
+        // Configure main flywheel motors
+        mainFlywheelMaster = new WPI_TalonFX(Constants.Shooter.MAIN_FLYWHEEL_MASTER_ID);
+        mainFlywheelMaster.configFactoryDefault();
+        mainFlywheelMaster.setNeutralMode(NeutralMode.Coast);
+        PIDParameters.configureMotorPID(mainFlywheelMaster, Constants.Shooter.MAIN_FLYWHEEL_PID);
+
+        mainFlywheelSlave = new WPI_TalonFX(Constants.Shooter.MAIN_FLYWHEEL_SLAVE_ID);
+        mainFlywheelSlave.follow(mainFlywheelMaster);
+
+        // Configure outer flywheel motors
+        outerFlywheelMaster = new WPI_TalonFX(Constants.Shooter.OUTER_FLYWHEEL_MASTER_ID);
+        outerFlywheelMaster.configFactoryDefault();
+        outerFlywheelMaster.setNeutralMode(NeutralMode.Coast);
+        PIDParameters.configureMotorPID(outerFlywheelMaster, Constants.Shooter.OUTER_FLYWHEEL_PID);
+
+        outerFlywheelSlave = new WPI_TalonFX(Constants.Shooter.OUTER_FLYWHEEL_SLAVE_ID);
+        outerFlywheelSlave.follow(outerFlywheelMaster);
 
         t = new Timer();
         t.start();
@@ -38,12 +56,17 @@ public class ShooterSubsystem extends SubsystemBase {
      * 
      * @param RPM
      */
-    public void setFlywheelSpeed (double RPM) {
-        flywheelMotor.set(ControlMode.Velocity, UnitConversions.Shooter.flywheelEncoderTicksPer100msToRPM(RPM));
+    public void setFlywheelSpeeds (double mainRPM, double outerRPM) {
+        mainFlywheelMaster.set(ControlMode.Velocity, UnitConversions.Shooter.mainFlywheelEncoderTicksPer100msToRPM(mainRPM));
+        outerFlywheelMaster.set(ControlMode.Velocity, UnitConversions.Shooter.outerFlywheelEncoderTicksPer100msToRPM(outerRPM));
     }
 
-    public double getFlywheelSpeed () {
-        return UnitConversions.Shooter.flywheelEncoderTicksPer100msToRPM(flywheelMotor.getSelectedSensorVelocity());
+    public double getMainFlywheelSpeed () {
+        return UnitConversions.Shooter.mainFlywheelEncoderTicksPer100msToRPM(mainFlywheelMaster.getSelectedSensorVelocity());
+    }
+
+    public double getOuterFlywheelSpeed () {
+        return UnitConversions.Shooter.outerFlywheelEncoderTicksPer100msToRPM(outerFlywheelMaster.getSelectedSensorVelocity());
     }
 
     /**
@@ -51,19 +74,28 @@ public class ShooterSubsystem extends SubsystemBase {
      * are below their tuned values
      */
     public boolean isFlywheelUpToSpeed () {
-        return (flywheelMotor.getClosedLoopError() <= Constants.Shooter.FLYWHEEL_SPEED_TOLERANCE) && 
-            (flywheelSpeedROC <= Constants.Shooter.FLYWHEEL_ROC_TOLERANCE);
+        boolean mainFlywheelUpToSpeed = (mainFlywheelMaster.getClosedLoopError() <= Constants.Shooter.MAIN_FLYWHEEL_SPEED_TOLERANCE) && 
+            (mainFlywheelSpeedROC <= Constants.Shooter.MAIN_FLYWHEEL_ROC_TOLERANCE);
+
+        boolean outerFlywheelUpToSpeed = (outerFlywheelSlave.getClosedLoopError() <= Constants.Shooter.OUTER_FLYWHEEL_SPEED_TOLERANCE) && 
+            (outerFlywheelSpeedROC <= Constants.Shooter.OUTER_FLYWHEEL_ROC_TOLERANCE);
+
+        return mainFlywheelUpToSpeed && outerFlywheelUpToSpeed;
     }
 
     public void stopFlywheels () {
-        flywheelMotor.stopMotor();
+        mainFlywheelMaster.stopMotor();
+        outerFlywheelMaster.stopMotor();
     }
 
     @Override
     public void periodic() {
         // Compute flywheel speed rate of change
-        double currentFlywheelSpeed = getFlywheelSpeed();
-        flywheelSpeedROC = (currentFlywheelSpeed - lastFlywheelSpeed) / t.get();
+        double mainFlywheelSpeed = getMainFlywheelSpeed();
+        double outerFlywheelSpeed = getOuterFlywheelSpeed();
+
+        mainFlywheelSpeedROC = (mainFlywheelSpeed - lastMainFlywheelSpeed) / t.get();
+        outerFlywheelSpeedROC = (outerFlywheelSpeed - lastOuterFlywheelSpeed) / t.get();
         t.reset();
     }
 }
