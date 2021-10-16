@@ -2,6 +2,7 @@ package frc.robot;
 
 import org.photonvision.PhotonCamera;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.subsystems.ArmSubsystem;
 import friarLib2.vision.PhotonCameraWrapper;
@@ -21,7 +22,7 @@ public class Vision {
      */
     public static double getDistanceFromTarget (ArmSubsystem arm) {
         if (mainCamera.hasTargets()) { // Only attempt to calculatee distance if camera has a target
-            if (mainCamera instanceof PhotonCamera) {
+            if (mainCamera instanceof PhotonCameraWrapper) {
                 lastDistance = mainCamera.getBestTarget().getPose().getX();
             } else {
                 // Constants for Limelight
@@ -39,7 +40,7 @@ public class Vision {
                     (HEIGHT_OF_TARGET - heightOfCamera) / Math.tan(Math.toRadians(angleOfCamera) + Math.toRadians(p.calculateYAngle(mainCamera.getBestTarget())))
                 );
             }
-        } // If there are no targets
+        }
         return lastDistance;
     }
 }

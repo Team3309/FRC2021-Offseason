@@ -59,6 +59,10 @@ public final class Constants {
         public static final double STOWED_ANGLE = 35; // Angle where robot fits under the Wheel of Fortune (WOF)
         public static final double INTAKE_ANGLE = 30; // Angle required for intaking power cells
         public static final double VISION_SEEK_ANGLE = 120; // Angle for finding targets
+
+        /******** Arm Motion Constraints ********/
+        public static final double MAX_VELOCITY_DEGREES_PER_SEC = 700;
+        public static final double MAX_ACCLERATION_DEGREES_PER_SEC_SQUARED = 720;
     }
 
     /**
@@ -136,9 +140,9 @@ public final class Constants {
          * between distance and angle.
          */
         public static double[][] AIM_REGRESSION_DATA = {
-            {1, 80},
-            {2, 70},
-            {3, 60}
+            {1.5, 200},
+            //{2, 11},
+            {3, 140}
         };
     }
 }

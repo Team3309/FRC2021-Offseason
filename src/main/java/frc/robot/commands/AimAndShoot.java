@@ -28,11 +28,6 @@ public class AimAndShoot extends CommandBase {
 
     @Override
     public void initialize() {
-        // Look for targets if none are curretly seen
-        if (!Vision.mainCamera.hasTargets()) {
-            arm.setArmPosition(Constants.Arm.VISION_SEEK_ANGLE);
-        }
-
         // Activate shooter
         //shooter.setFlywheelSpeed(Constants.Shooter.SHOOTING_RPM); //TODO: Uncomment this line
     }
@@ -46,7 +41,7 @@ public class AimAndShoot extends CommandBase {
 
         // Move the robot to align with the target, while allowing the drivers to control throttle
         drive.setDrivePowerArcade(
-            OperatorInterface.DriverLeft.getYWithDeadband(), 
+            -OperatorInterface.DriverLeft.getYWithDeadband(), 
             -Constants.Drive.ROTATION_PID_CONTROLLER.calculate(targetx, 0));
 
         // Shoot powercells

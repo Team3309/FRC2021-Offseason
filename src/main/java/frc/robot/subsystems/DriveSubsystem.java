@@ -154,7 +154,7 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Left speed", UnitConversions.Drive.EncoderTicksPer100mstoMPS(leftMaster.getSelectedSensorVelocity()));
 
         if (Vision.mainCamera.hasTargets()) {
-            SmartDashboard.putNumber("VX", Vision.mainCamera.getBestTarget().getX());
+            //SmartDashboard.putNumber("VX", Vision.mainCamera.getBestTarget().getX());
         }
 
         f2d.setRobotPose(currentRobotPose);
