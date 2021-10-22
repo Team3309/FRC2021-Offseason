@@ -24,22 +24,26 @@ import frc.robot.subsystems.DriveSubsystem;
  */
 public class FollowTrajectory extends CommandBase {
 
-    DriveSubsystem drive;
+    private DriveSubsystem drive;
 
-    RamseteController ramseteController;
+    private boolean resetOdometry;
+
+    private RamseteController ramseteController;
     private Timer timer = new Timer();
     private Trajectory trajectory;
 
     private final Field2d f2d = new Field2d();
 
-    public FollowTrajectory (DriveSubsystem drive, String trajectoryJSON) {
+    public FollowTrajectory (DriveSubsystem drive, String trajectoryJSON, boolean resetOdometry) {
         this.drive = drive;
         addRequirements(drive);
+
+        this.resetOdometry = resetOdometry;
 
         ramseteController = new RamseteController();
 
         // Set the range where the ramsete controller considers itself at its target location
-        ramseteController.setTolerance(new Pose2d(new Translation2d(.09, .09), Rotation2d.fromDegrees(10)));
+        ramseteController.setTolerance(new Pose2d(new Translation2d(0.4, 0.4), Rotation2d.fromDegrees(30)));
 
         trajectory = openTrajectoryFromJSON(trajectoryJSON); //Load the pathweaver trajectory
 
@@ -49,7 +53,9 @@ public class FollowTrajectory extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        drive.resetOdometry(trajectory.getInitialPose(), trajectory.getInitialPose().getRotation()); // Re-zero the robot's odometry
+        if (resetOdometry) {
+            drive.resetOdometry(trajectory.getInitialPose(), trajectory.getInitialPose().getRotation()); // Re-zero the robot's odometry
+        }
         timer.reset();
         timer.start();
     }

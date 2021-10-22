@@ -77,7 +77,7 @@ public final class Constants {
         public static final int RIGHT_SLAVE_ID = 1;
 
         /******** PID Constants ********/
-        public static final PIDParameters WHEEL_PID_CONSTANTS = new PIDParameters(0.4, 0.01, 0);
+        public static final PIDParameters WHEEL_PID_CONSTANTS = new PIDParameters(0.3, 0.0001, .6);
         public static final PIDController ROTATION_PID_CONTROLLER = new PIDController(0.02, 0, 0.0005);
 
         /******** Physical Constants ********/

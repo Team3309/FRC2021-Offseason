@@ -7,12 +7,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AimAndShoot;
 import frc.robot.commands.Climb;
 import frc.robot.commands.DriveTeleop;
 import frc.robot.commands.DriveTest;
 import frc.robot.commands.Intake;
 import frc.robot.commands.autos.FollowTrajectory;
+import frc.robot.commands.autos.TestAuto;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -40,10 +43,16 @@ public class RobotContainer {
   private final SerializerSubsystem serializer = new SerializerSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
+  private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+  private final TestAuto testTrajectory = new TestAuto(drive);
+
   /** 
    * The container for the robot. Contains subsystems, OI devices, and commands. 
    */
   public RobotContainer() {
+    autoChooser.setDefaultOption("Test auto", testTrajectory);
+    SmartDashboard.putData(autoChooser);
+
     configureDefaultCommands();
     configureButtonBindings();
   }
@@ -84,7 +93,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;//m_autoCommand;
+    return autoChooser.getSelected();
   }
 }

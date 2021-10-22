@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.analog.adis16470.frc.ADIS16470_IMU;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -103,10 +104,12 @@ public class DriveSubsystem extends SubsystemBase {
     private void configureMotors (WPI_TalonFX master, WPI_TalonFX slave, boolean inverted) {
         master.configFactoryDefault();
         master.setInverted(inverted);
+        master.setNeutralMode(NeutralMode.Brake);
         PIDParameters.configureMotorPID(master, Constants.Drive.WHEEL_PID_CONSTANTS);
 
         slave.configFactoryDefault();
         slave.setInverted(inverted);
+        slave.setNeutralMode(NeutralMode.Brake);
         slave.follow(master);
     }
 
