@@ -36,7 +36,7 @@ public class AimAndShoot extends CommandBase {
     public void execute() {
         // Move the arm to aim at the target
         arm.aim();
-
+        
         double targetx = Vision.mainCamera.hasTargets() ? Vision.mainCamera.getBestTarget().getX() : 0;
 
         // Move the robot to align with the target, while allowing the drivers to control throttle

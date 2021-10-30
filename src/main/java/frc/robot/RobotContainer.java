@@ -95,4 +95,14 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }
+
+  public Command getTeleopInitCommand() {
+    System.out.println("Teleop init");
+    arm.setArmPositionToCurrentPosition();
+    return new InstantCommand(arm::setArmPositionToCurrentPosition, arm);
+  }
+
+  // public Command getDisabledInitCommand() {
+  //   return new InstantCommand(arm::setArmNotSynced, arm);
+  // }
 }

@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
@@ -31,9 +32,10 @@ public class ArmSubsystem extends SubsystemBase {
     private TrapezoidProfile profile;
     private Timer timer = new Timer();
     private TrapezoidProfile.State targetState;
+    private double currentSetDegrees = 0;
 
     public ArmSubsystem () {
-        // Set upp motor
+        // Set up motor
         armMotor = new WPI_TalonFX(Constants.Arm.ARM_MOTOR_ID);
         armMotor.configFactoryDefault();
         armMotor.setNeutralMode(NeutralMode.Brake);
@@ -72,13 +74,17 @@ public class ArmSubsystem extends SubsystemBase {
      * @param degrees
      */
     public void setArmPosition (double degrees) {
+        if(degrees == currentSetDegrees){
+            return;
+        }
+        currentSetDegrees = degrees;
         profile = new TrapezoidProfile (
             new TrapezoidProfile.Constraints(
                 Constants.Arm.MAX_VELOCITY_DEGREES_PER_SEC,
                 Constants.Arm.MAX_ACCLERATION_DEGREES_PER_SEC_SQUARED
             ),
             new TrapezoidProfile.State(degrees, 0), // Goal state
-            targetState
+            new TrapezoidProfile.State(getArmPosition(), getArmSpeed())
         );
 
         timer.reset();
@@ -97,7 +103,19 @@ public class ArmSubsystem extends SubsystemBase {
         return UnitConversions.Arm.armEncoderTicksToDegrees(armMotor.getSelectedSensorPosition());
     }
 
+    public double getArmSpeed () {
+        return UnitConversions.Arm.armEncoderTicksToDegrees(armMotor.getSelectedSensorVelocity()) /10.0;
+    }
+
     /**
+     * Used to prevent jerking the arm when the robot's been disabled and
+     * the arm has fallen/changed positons
+     */
+    public void setArmPositionToCurrentPosition () {
+        setArmPosition(getArmPosition());
+    }
+
+    /** 
      * Use the pre-tuned regression to set the position of arm based
      * on the data from the limelight
      */
@@ -113,12 +131,14 @@ public class ArmSubsystem extends SubsystemBase {
     public void periodic() {
         targetState = profile.calculate(timer.get());
         
-        // Set motor closed loop target to the TrapezoidProfile's calculated position
-        armMotor.set(
-            ControlMode.Position, 
-            UnitConversions.Arm.armDegreesToEncoderTicks(targetState.position)
-        );
-
+        //if(isArmPositionSynced){
+            // Set motor closed loop target to the TrapezoidProfile's calculated position
+            armMotor.set(
+                ControlMode.Position, 
+                UnitConversions.Arm.armDegreesToEncoderTicks(targetState.position)
+            );
+        //}
+        
         SmartDashboard.putNumber("Arm setpoint", armMotor.getClosedLoopTarget());
         SmartDashboard.putNumber("Arm setpoint degrees", UnitConversions.Arm.armEncoderTicksToDegrees(armMotor.getClosedLoopTarget()));
         SmartDashboard.putNumber("Arm position degrees", UnitConversions.Arm.armEncoderTicksToDegrees(armMotor.getSelectedSensorPosition()));

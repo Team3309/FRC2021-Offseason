@@ -21,7 +21,7 @@ public final class Constants {
      * Global constants that do not belong to a subsystem
      */
     public static final int PCM_CAN_ID = 0;
-    public static final double JOYSTICK_DEADBAND = 0.05;
+    public static final double JOYSTICK_DEADBAND = 0.1;
     public static final double XBOX_DEADBAND = 0.05;
 
     /**
