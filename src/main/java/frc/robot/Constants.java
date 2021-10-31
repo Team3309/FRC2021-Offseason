@@ -29,7 +29,7 @@ public final class Constants {
      */
     public static final class Climber {
         /******** Motor CAN ID's ********/
-        public static final int WINCH_MOTOR_ID = 13;
+        public static final int WINCH_MOTOR_ID = 2;
 
         /******** Pneumatics ********/
         public static final int PCM_PORT = 3;
@@ -43,10 +43,10 @@ public final class Constants {
      */
     public final static class Arm {
         /******** Motor CAN ID's ********/
-        public static final int ARM_MOTOR_ID = 3;
+        public static final int ARM_MOTOR_ID = 1;
 
         /******** PID Constants ********/
-        public static final PIDParameters ARM_PID = new PIDParameters(0.2, 2.54972071e-05, 10.0); // Gains taken from 2020 robot
+        public static final PIDParameters ARM_PID = new PIDParameters(0, 0, 0);
 
         /******** Physical Constants ********/
         public static final int LIMIT_SWITCH_PORT = 0; // Digital input port on the RoboRIO that the arm's limit switch is connected too
@@ -73,8 +73,8 @@ public final class Constants {
         public static final int LEFT_MASTER_ID = 4;
         public static final int LEFT_SLAVE_ID = 16;
 
-        public static final int RIGHT_MASTER_ID = 15;
-        public static final int RIGHT_SLAVE_ID = 1;
+        public static final int RIGHT_MASTER_ID = 5;
+        public static final int RIGHT_SLAVE_ID = 19;
 
         /******** PID Constants ********/
         public static final PIDParameters WHEEL_PID_CONSTANTS = new PIDParameters(0.3, 0.0001, .6);
@@ -91,7 +91,7 @@ public final class Constants {
      */
     public final static class Intake {
         /******** Motor CAN ID's ********/
-        public static final int MOTOR_ID = 20;
+        public static final int MOTOR_ID = 3;
 
         /******** Pneumatics ********/
         public static final int FIRST_PCM_PORT = 1;
@@ -106,12 +106,14 @@ public final class Constants {
      */
     public final static class Serializer {
         /******** Motor CAN ID's ********/
-        public static final int BRUSH_MOTOR_ID = 5;
-        public static final int ACCLERATOR_MOTOR_ID = 6;
+        public static final int BRUSH_MOTOR_ID = 8;
+        public static final int ROLLER_MOTOR_ID = 9;
+        public static final int ACCLERATOR_MOTOR_ID = 15;
 
         /******** Tuning Constants ********/
-        public static final double BRUSH_POWER = 1.0;
+        public static final double BRUSH_POWER = .5;
         public static final double ACCLERATOR_POWER = 1.0;
+        public static final double ROLLER_POWER = 1.0;
     }
 
     /**
@@ -119,7 +121,7 @@ public final class Constants {
      */
     public final static class Shooter {
         /******** Motor CAN ID's ********/
-        public static final int FLYWHEEL_MOTOR_ID = 7;
+        public static final int FLYWHEEL_MOTOR_ID = 6; //main slave: 18, outer slave: 17, 
 
         /******** PID Constants ********/
         public static final PIDParameters FLYWHEEL_PID = new PIDParameters(0.1, 0, 0);

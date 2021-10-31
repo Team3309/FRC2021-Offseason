@@ -29,7 +29,7 @@ public class AimAndShoot extends CommandBase {
     @Override
     public void initialize() {
         // Activate shooter
-        //shooter.setFlywheelSpeed(Constants.Shooter.SHOOTING_RPM); //TODO: Uncomment this line
+        shooter.setFlywheelSpeed(Constants.Shooter.SHOOTING_RPM);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class AimAndShoot extends CommandBase {
             -Constants.Drive.ROTATION_PID_CONTROLLER.calculate(targetx, 0));
 
         // Shoot powercells
-        if (OperatorInterface.OperatorController.getAButton() && shooter.isFlywheelUpToSpeed()) {
+        if (OperatorInterface.OperatorController.getXButton() && shooter.isFlywheelUpToSpeed()) {
             serializer.activateBrushes();
             serializer.activateAcclerator();
         } else {
