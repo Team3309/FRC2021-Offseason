@@ -24,12 +24,20 @@ public class UnitConversions {
     }
 
     public static class Shooter {
-        public static double flywheelEncoderTicksPer100msToRPM (double encoderTicksPer100ms) {
-            return encoderTicksPer100ms / 2048.0 * 10 / 60;
+        public static double mainFlywheelEncoderTicksPer100msToRPM (double encoderTicksPer100ms) {
+            return (encoderTicksPer100ms / 2048.0 * Constants.Shooter.MAIN_FLYWHEEL_GEAR_RATIO) * 10 / 60;
         }
 
-        public static double flywheelRPMToEncoderTicksPer100ms (double RPM) {
-            return RPM / flywheelEncoderTicksPer100msToRPM(1);
+        public static double mainFlywheelRPMToEncoderTicksPer100ms (double RPM) {
+            return RPM / mainFlywheelEncoderTicksPer100msToRPM(1);
+        }
+
+        public static double outerFlywheelEncoderTicksPer100msToRPM (double encoderTicksPer100ms) {
+            return (encoderTicksPer100ms / 2048.0 * Constants.Shooter.OUTER_FLYWHEEL_GEAR_RATIO) * 10 / 60;
+        }
+
+        public static double outerFlywheelRPMToEncoderTicksPer100ms (double RPM) {
+            return RPM / outerFlywheelEncoderTicksPer100msToRPM(1);
         }
     }
 
