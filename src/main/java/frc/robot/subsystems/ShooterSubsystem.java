@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -30,22 +32,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public ShooterSubsystem () {
         // Configure main flywheel motors
-        mainFlywheelMaster = new WPI_TalonFX(Constants.Shooter.MAIN_FLYWHEEL_MASTER_ID);
-        mainFlywheelMaster.configFactoryDefault();
-        mainFlywheelMaster.setNeutralMode(NeutralMode.Coast);
-        PIDParameters.configureMotorPID(mainFlywheelMaster, Constants.Shooter.MAIN_FLYWHEEL_PID);
-
-        mainFlywheelSlave = new WPI_TalonFX(Constants.Shooter.MAIN_FLYWHEEL_SLAVE_ID);
-        mainFlywheelSlave.follow(mainFlywheelMaster);
+        configureMotorPair(
+            mainFlywheelMaster, Constants.Shooter.MAIN_FLYWHEEL_MASTER_ID,
+            mainFlywheelSlave, Constants.Shooter.MAIN_FLYWHEEL_SLAVE_ID);
 
         // Configure outer flywheel motors
-        outerFlywheelMaster = new WPI_TalonFX(Constants.Shooter.OUTER_FLYWHEEL_MASTER_ID);
-        outerFlywheelMaster.configFactoryDefault();
-        outerFlywheelMaster.setNeutralMode(NeutralMode.Coast);
-        PIDParameters.configureMotorPID(outerFlywheelMaster, Constants.Shooter.OUTER_FLYWHEEL_PID);
-
-        outerFlywheelSlave = new WPI_TalonFX(Constants.Shooter.OUTER_FLYWHEEL_SLAVE_ID);
-        outerFlywheelSlave.follow(outerFlywheelMaster);
+        configureMotorPair(
+            outerFlywheelMaster, Constants.Shooter.OUTER_FLYWHEEL_MASTER_ID, 
+            outerFlywheelSlave, Constants.Shooter.OUTER_FLYWHEEL_SLAVE_ID);
 
         t = new Timer();
         t.start();
@@ -93,6 +87,16 @@ public class ShooterSubsystem extends SubsystemBase {
     public void stopFlywheels () {
         mainFlywheelMaster.stopMotor();
         outerFlywheelMaster.stopMotor();
+    }
+
+    private void configureMotorPair (TalonFX master, int masterID, TalonFX slave, int slaveID) {
+        master = new WPI_TalonFX(masterID);
+        master.configFactoryDefault();
+        master.setNeutralMode(NeutralMode.Coast);
+        PIDParameters.configureMotorPID(mainFlywheelMaster, Constants.Shooter.MAIN_FLYWHEEL_PID);
+
+        slave = new WPI_TalonFX(slaveID);
+        slave.follow(master);
     }
 
     @Override
