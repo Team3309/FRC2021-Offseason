@@ -29,7 +29,7 @@ public class AimAndShoot extends CommandBase {
     @Override
     public void initialize() {
         // Activate shooter
-        shooter.setFlywheelSpeed(Constants.Shooter.SHOOTING_RPM);
+        shooter.activateFlywheels();
     }
 
     @Override

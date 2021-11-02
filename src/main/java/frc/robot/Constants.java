@@ -121,15 +121,27 @@ public final class Constants {
      */
     public final static class Shooter {
         /******** Motor CAN ID's ********/
-        public static final int FLYWHEEL_MOTOR_ID = 6; //main slave: 18, outer slave: 17, 
+        public static final int MAIN_FLYWHEEL_MASTER_ID = 6;
+        public static final int MAIN_FLYWHEEL_SLAVE_ID = 18;
+        public static final int OUTER_FLYWHEEL_MASTER_ID = 40; //TODO: find the actual ID
+        public static final int OUTER_FLYWHEEL_SLAVE_ID = 17;
 
         /******** PID Constants ********/
-        public static final PIDParameters FLYWHEEL_PID = new PIDParameters(0.1, 0, 0);
+        public static final PIDParameters MAIN_FLYWHEEL_PID = new PIDParameters(0.1, 0, 0);
+        public static final PIDParameters OUTER_FLYWHEEL_PID = new PIDParameters(0.1, 0, 0);
+
+        /******** PID Constants ********/
+        public static final double MAIN_FLYWHEEL_GEAR_RATIO = 6.0 / 5.0;
+        public static final double OUTER_FLYWHEEL_GEAR_RATIO = 1.0 / 1.0;
 
         /******** Tuning Constants ********/
-        public static final int FLYWHEEL_SPEED_TOLERANCE = 50; // Only shoot powercells if flywheels are within this range of their target speed
-        public static final double FLYWHEEL_ROC_TOLERANCE = 10; // Only shoot powercells if the flywheels' speeds' rate of change is below this value
-        public static final double SHOOTING_RPM = 3000;
+        public static final int MAIN_FLYWHEEL_SPEED_TOLERANCE = 50; // Only shoot powercells if flywheels are within this range of their target speed
+        public static final double MAIN_FLYWHEEL_ROC_TOLERANCE = 10; // Only shoot powercells if the flywheels' speeds' rate of change is below this value
+        public static final int OUTER_FLYWHEEL_SPEED_TOLERANCE = 50;
+        public static final double OUTER_FLYWHEEL_ROC_TOLERANCE = 10;
+
+        public static final double MAIN_FLYWHEEL_SHOOTING_RPM = 3000;
+        public static final double OUTER_FLYWHEEL_SHOOTING_RPM = 2500;
 
         /**
          * A 2D array for tuning the shooter.
