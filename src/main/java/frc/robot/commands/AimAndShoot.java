@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.OperatorInterface;
@@ -35,7 +34,7 @@ public class AimAndShoot extends CommandBase {
     @Override
     public void execute() {
         // Move the arm to aim at the target
-        arm.aim();
+        //arm.aim();
         
         double targetx = Vision.mainCamera.hasTargets() ? Vision.mainCamera.getBestTarget().getX() : 0;
 

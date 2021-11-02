@@ -29,7 +29,7 @@ public class UnitConversions {
 
     public static class Shooter {
         public static double mainFlywheelEncoderTicksPer100msToRPM (double encoderTicksPer100ms) {
-            return (encoderTicksPer100ms / 2048.0 * Constants.Shooter.MAIN_FLYWHEEL_GEAR_RATIO) * 10 / 60;
+            return (encoderTicksPer100ms / 2048.0 * Constants.Shooter.MAIN_FLYWHEEL_GEAR_RATIO) * (1.0*10.0) * (1.0 * 60.0);
         }
 
         public static double mainFlywheelRPMToEncoderTicksPer100ms (double RPM) {
@@ -37,7 +37,7 @@ public class UnitConversions {
         }
 
         public static double outerFlywheelEncoderTicksPer100msToRPM (double encoderTicksPer100ms) {
-            return (encoderTicksPer100ms / 2048.0 * Constants.Shooter.OUTER_FLYWHEEL_GEAR_RATIO) * 10 / 60;
+            return (encoderTicksPer100ms / 2048.0 * Constants.Shooter.OUTER_FLYWHEEL_GEAR_RATIO) * (1.0*10.0) * (1.0 * 60.0);
         }
 
         public static double outerFlywheelRPMToEncoderTicksPer100ms (double RPM) {

@@ -101,8 +101,4 @@ public class RobotContainer {
     arm.setArmPositionToCurrentPosition();
     return new InstantCommand(arm::setArmPositionToCurrentPosition, arm);
   }
-
-  // public Command getDisabledInitCommand() {
-  //   return new InstantCommand(arm::setArmNotSynced, arm);
-  // }
 }

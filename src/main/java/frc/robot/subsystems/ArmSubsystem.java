@@ -144,5 +144,6 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Arm position degrees", UnitConversions.Arm.armEncoderTicksToDegrees(armMotor.getSelectedSensorPosition()));
         SmartDashboard.putNumber("Distance", Vision.getDistanceFromTarget(this));
         SmartDashboard.putNumber("Aim angle", regression.evaluate(Vision.getDistanceFromTarget(this)));
+        SmartDashboard.putNumber("Arm power", armMotor.getMotorOutputPercent());
     }
 }

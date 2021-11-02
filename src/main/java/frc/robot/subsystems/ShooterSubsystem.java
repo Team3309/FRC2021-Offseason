@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -32,15 +31,22 @@ public class ShooterSubsystem extends SubsystemBase {
     private Timer t;
 
     public ShooterSubsystem () {
+        mainFlywheelMaster = new WPI_TalonFX(Constants.Shooter.MAIN_FLYWHEEL_MASTER_ID);
+        mainFlywheelSlave = new WPI_TalonFX(Constants.Shooter.MAIN_FLYWHEEL_SLAVE_ID);
+        outerFlywheelMaster = new WPI_TalonFX(Constants.Shooter.OUTER_FLYWHEEL_MASTER_ID);
+        outerFlywheelSlave = new WPI_TalonFX(Constants.Shooter.OUTER_FLYWHEEL_SLAVE_ID);
+
         // Configure main flywheel motors
         configureMotorPair(
-            mainFlywheelMaster, Constants.Shooter.MAIN_FLYWHEEL_MASTER_ID,
-            mainFlywheelSlave, Constants.Shooter.MAIN_FLYWHEEL_SLAVE_ID);
+            mainFlywheelMaster,
+            mainFlywheelSlave,
+            Constants.Shooter.MAIN_FLYWHEEL_PID);
 
         // Configure outer flywheel motors
         configureMotorPair(
-            outerFlywheelMaster, Constants.Shooter.OUTER_FLYWHEEL_MASTER_ID, 
-            outerFlywheelSlave, Constants.Shooter.OUTER_FLYWHEEL_SLAVE_ID);
+            outerFlywheelMaster, 
+            outerFlywheelSlave,
+            Constants.Shooter.OUTER_FLYWHEEL_PID);
 
         t = new Timer();
         t.start();
@@ -52,8 +58,9 @@ public class ShooterSubsystem extends SubsystemBase {
      * @param RPM
      */
     public void setFlywheelSpeeds (double mainRPM, double outerRPM) {
-        mainFlywheelMaster.set(ControlMode.Velocity, UnitConversions.Shooter.mainFlywheelEncoderTicksPer100msToRPM(mainRPM));
-        outerFlywheelMaster.set(ControlMode.Velocity, UnitConversions.Shooter.outerFlywheelEncoderTicksPer100msToRPM(outerRPM));
+        System.out.println(UnitConversions.Shooter.mainFlywheelRPMToEncoderTicksPer100ms(mainRPM));
+        mainFlywheelMaster.set(ControlMode.Velocity, UnitConversions.Shooter.mainFlywheelRPMToEncoderTicksPer100ms(mainRPM));
+        outerFlywheelMaster.set(ControlMode.Velocity, UnitConversions.Shooter.outerFlywheelRPMToEncoderTicksPer100ms(outerRPM));
     }
 
     /**
@@ -90,14 +97,14 @@ public class ShooterSubsystem extends SubsystemBase {
         outerFlywheelMaster.stopMotor();
     }
 
-    private void configureMotorPair (TalonFX master, int masterID, TalonFX slave, int slaveID) {
-        master = new WPI_TalonFX(masterID);
+    private void configureMotorPair (TalonFX master, TalonFX slave, PIDParameters pid) {
         master.configFactoryDefault();
         master.setNeutralMode(NeutralMode.Coast);
-        PIDParameters.configureMotorPID(mainFlywheelMaster, Constants.Shooter.MAIN_FLYWHEEL_PID);
+        PIDParameters.configureMotorPID(master, pid);
+        //master.config_IntegralZone(0, UnitConversions.Shooter.mainFlywheelRPMToEncoderTicksPer100ms(RPM))
 
-        slave = new WPI_TalonFX(slaveID);
         slave.follow(master);
+        slave.setInverted(true);
     }
 
     @Override
@@ -110,7 +117,16 @@ public class ShooterSubsystem extends SubsystemBase {
         outerFlywheelSpeedROC = (outerFlywheelSpeed - lastOuterFlywheelSpeed) / t.get();
         t.reset();
 
+        lastMainFlywheelSpeed = mainFlywheelSpeed;
+        lastOuterFlywheelSpeed = outerFlywheelSpeed;
+
         SmartDashboard.putNumber("Main flywheel speed", getMainFlywheelSpeed());
         SmartDashboard.putNumber("Outer flywheel speed", getOuterFlywheelSpeed());
+        SmartDashboard.putNumber("Main flywheel target", UnitConversions.Shooter.mainFlywheelEncoderTicksPer100msToRPM(mainFlywheelMaster.getClosedLoopTarget()));
+        SmartDashboard.putNumber("Outer flywheel target", UnitConversions.Shooter.outerFlywheelEncoderTicksPer100msToRPM(outerFlywheelMaster.getClosedLoopTarget()));
+        SmartDashboard.putNumber("Main flywheel power", mainFlywheelMaster.getMotorOutputPercent());
+        SmartDashboard.putNumber("Outer flywheel power", outerFlywheelMaster.getMotorOutputPercent());
+        SmartDashboard.putNumber("Main flywheel ROC", mainFlywheelSpeedROC);
+        SmartDashboard.putNumber("Outer flywheel ROC", outerFlywheelSpeedROC);
     }
 }
