@@ -21,7 +21,7 @@ public final class Constants {
      * Global constants that do not belong to a subsystem
      */
     public static final int PCM_CAN_ID = 0;
-    public static final double JOYSTICK_DEADBAND = 0.05;
+    public static final double JOYSTICK_DEADBAND = 0.1;
     public static final double XBOX_DEADBAND = 0.05;
 
     /**
@@ -29,10 +29,10 @@ public final class Constants {
      */
     public static final class Climber {
         /******** Motor CAN ID's ********/
-        public static final int WINCH_MOTOR_ID = 9;
+        public static final int WINCH_MOTOR_ID = 2;
 
         /******** Pneumatics ********/
-        public static final int PCM_PORT = 2;
+        public static final int PCM_PORT = 3;
 
         /******** Tuning Constatnts ********/
         public static final double WINCH_POWER = .4;
@@ -43,22 +43,26 @@ public final class Constants {
      */
     public final static class Arm {
         /******** Motor CAN ID's ********/
-        public static final int ARM_MOTOR_ID = 8;
+        public static final int ARM_MOTOR_ID = 1;
 
         /******** PID Constants ********/
-        public static final PIDParameters ARM_PID = new PIDParameters(0.2, 2.54972071e-05, 10.0); // Gains taken from 2020 robot
+        public static final PIDParameters ARM_PID = new PIDParameters(0, 0, 0);
 
         /******** Physical Constants ********/
         public static final int LIMIT_SWITCH_PORT = 0; // Digital input port on the RoboRIO that the arm's limit switch is connected too
         public static final double LIMIT_SWITCH_ANGLE = -10; // The angle that the arm is at when the limit switch is triggered
 
-        public static final double ARM_GEAR_RATIO = 45.0 / 1;
+        public static final double ARM_GEAR_RATIO = 45.0 / 1.0;
 
         /******** Arm Location Presets ********/
-        public static final double START_CONFIG_ANGLE = 30; // Angle where robot fits in starting config
-        public static final double STOWED_ANGLE = 0; // Angle where robot fits under the Wheel of Fortune (WOF)
-        public static final double INTAKE_ANGLE = 5; // Angle required for intaking power cells
-        public static final double VISION_SEEK_ANGLE = 15; // Angle for finding targets
+        public static final double START_CONFIG_ANGLE = -30; // Angle that arm is in when robot is turned on
+        public static final double STOWED_ANGLE = 35; // Angle where robot fits under the Wheel of Fortune (WOF)
+        public static final double INTAKE_ANGLE = 30; // Angle required for intaking power cells
+        public static final double VISION_SEEK_ANGLE = 120; // Angle for finding targets
+
+        /******** Arm Motion Constraints ********/
+        public static final double MAX_VELOCITY_DEGREES_PER_SEC = 700;
+        public static final double MAX_ACCLERATION_DEGREES_PER_SEC_SQUARED = 720;
     }
 
     /**
@@ -66,15 +70,15 @@ public final class Constants {
      */
     public final static class Drive {
         /******** Motor CAN ID's ********/
-        public static final int LEFT_MASTER_ID = 0;
-        public static final int LEFT_SLAVE_ID = 1;
+        public static final int LEFT_MASTER_ID = 4;
+        public static final int LEFT_SLAVE_ID = 16;
 
-        public static final int RIGHT_MASTER_ID = 2;
-        public static final int RIGHT_SLAVE_ID = 3;
+        public static final int RIGHT_MASTER_ID = 5;
+        public static final int RIGHT_SLAVE_ID = 19;
 
         /******** PID Constants ********/
-        public static final PIDParameters WHEEL_PID_CONSTANTS = new PIDParameters(0.1, 0, 0);
-        public static final PIDController ROTATION_PID_CONTROLLER = new PIDController(0.1, 0, 0);
+        public static final PIDParameters WHEEL_PID_CONSTANTS = new PIDParameters(0.3, 0.0001, .6);
+        public static final PIDController ROTATION_PID_CONTROLLER = new PIDController(0.02, 0, 0.0005);
 
         /******** Physical Constants ********/
         public static final double GEAR_RATIO = 10.7;
@@ -87,14 +91,14 @@ public final class Constants {
      */
     public final static class Intake {
         /******** Motor CAN ID's ********/
-        public static final int MOTOR_ID = 4;
+        public static final int MOTOR_ID = 3;
 
         /******** Pneumatics ********/
-        public static final int FIRST_PCM_PORT = 0;
-        public static final int SECOND_PCM_PORT = 1;
+        public static final int FIRST_PCM_PORT = 1;
+        public static final int SECOND_PCM_PORT = 2;
 
         /******** Tuning Constants ********/
-        public static final double MOTOR_POWER = 1.0;
+        public static final double MOTOR_POWER = 1;
     }
 
     /**
@@ -102,12 +106,14 @@ public final class Constants {
      */
     public final static class Serializer {
         /******** Motor CAN ID's ********/
-        public static final int BRUSH_MOTOR_ID = 5;
-        public static final int ACCLERATOR_MOTOR_ID = 6;
+        public static final int BRUSH_MOTOR_ID = 8;
+        public static final int ROLLER_MOTOR_ID = 9;
+        public static final int ACCLERATOR_MOTOR_ID = 15;
 
         /******** Tuning Constants ********/
-        public static final double BRUSH_POWER = 1.0;
+        public static final double BRUSH_POWER = .5;
         public static final double ACCLERATOR_POWER = 1.0;
+        public static final double ROLLER_POWER = 1.0;
     }
 
     /**
@@ -115,10 +121,10 @@ public final class Constants {
      */
     public final static class Shooter {
         /******** Motor CAN ID's ********/
-        public static final int MAIN_FLYWHEEL_MASTER_ID = 7;
-        public static final int MAIN_FLYWHEEL_SLAVE_ID = 8;
-        public static final int OUTER_FLYWHEEL_MASTER_ID = 9;
-        public static final int OUTER_FLYWHEEL_SLAVE_ID = 10;
+        public static final int MAIN_FLYWHEEL_MASTER_ID = 6;
+        public static final int MAIN_FLYWHEEL_SLAVE_ID = 18;
+        public static final int OUTER_FLYWHEEL_MASTER_ID = 40; //TODO: find the actual ID
+        public static final int OUTER_FLYWHEEL_SLAVE_ID = 17;
 
         /******** PID Constants ********/
         public static final PIDParameters MAIN_FLYWHEEL_PID = new PIDParameters(0.1, 0, 0);
@@ -148,9 +154,9 @@ public final class Constants {
          * between distance and angle.
          */
         public static double[][] AIM_REGRESSION_DATA = {
-            {1, 80},
-            {2, 70},
-            {3, 60}
+            {1.5, 200},
+            //{2, 11},
+            {3, 140}
         };
     }
 }

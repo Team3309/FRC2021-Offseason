@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.UnitConversions;
@@ -108,5 +109,8 @@ public class ShooterSubsystem extends SubsystemBase {
         mainFlywheelSpeedROC = (mainFlywheelSpeed - lastMainFlywheelSpeed) / t.get();
         outerFlywheelSpeedROC = (outerFlywheelSpeed - lastOuterFlywheelSpeed) / t.get();
         t.reset();
+
+        SmartDashboard.putNumber("Main flywheel speed", getMainFlywheelSpeed());
+        SmartDashboard.putNumber("Outer flywheel speed", getOuterFlywheelSpeed());
     }
 }

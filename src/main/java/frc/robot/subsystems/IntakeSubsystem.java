@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -17,11 +17,11 @@ import frc.robot.Constants;
  */
 public class IntakeSubsystem extends SubsystemBase {
 
-    private WPI_TalonSRX intakeMotor;
+    private WPI_VictorSPX intakeMotor;
     private DoubleSolenoid intakePiston;
 
     public IntakeSubsystem () {
-        intakeMotor = new WPI_TalonSRX(Constants.Intake.MOTOR_ID);
+        intakeMotor = new WPI_VictorSPX(Constants.Intake.MOTOR_ID);
         intakeMotor.configFactoryDefault();
         intakeMotor.setNeutralMode(NeutralMode.Coast);
 
@@ -32,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
      * Extend intake and activate motor
      */
     public void deploy () {
-        intakePiston.set(Value.kForward);
+        intakePiston.set(Value.kReverse);
         intakeMotor.set(ControlMode.PercentOutput, Constants.Intake.MOTOR_POWER);
     }
 
@@ -40,7 +40,7 @@ public class IntakeSubsystem extends SubsystemBase {
      * Retract intake and stop motor
      */
     public void retract () {
-        intakePiston.set(Value.kReverse);
+        intakePiston.set(Value.kForward);
         intakeMotor.stopMotor();
     }
 

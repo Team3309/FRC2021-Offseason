@@ -1,16 +1,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
 
-/**
- * Manual control of the robot
- */
-public class DriveTeleop extends CommandBase {
+public class DriveTest extends CommandBase {
     DriveSubsystem drive;
 
-    public DriveTeleop (DriveSubsystem drive) {
+    public DriveTest (DriveSubsystem drive) {
         this.drive = drive;
 
         addRequirements(drive);
@@ -18,11 +14,7 @@ public class DriveTeleop extends CommandBase {
 
     @Override
     public void execute() {
-      // Read the joystick values and apply deadband
-      double throttle = -OperatorInterface.DriverLeft.getYWithDeadband();
-      double turn = OperatorInterface.DriverRight.getXWithDeadband();
-
-      drive.setDrivePowerArcade(throttle, turn);
+      drive.setDriveSpeeds(1.5, -1.5);
     }
 
     // Called once the command ends or is interrupted.

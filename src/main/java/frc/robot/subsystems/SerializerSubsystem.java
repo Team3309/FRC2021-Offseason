@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,15 +18,21 @@ public class SerializerSubsystem extends SubsystemBase {
 
     WPI_VictorSPX brushMotor;
     WPI_VictorSPX accleratorMotor;
+    WPI_TalonSRX rollerMotor;
 
     public SerializerSubsystem () {
         brushMotor = new WPI_VictorSPX(Constants.Serializer.BRUSH_MOTOR_ID);
         brushMotor.configFactoryDefault();
         brushMotor.setNeutralMode(NeutralMode.Brake);
+        brushMotor.setInverted(true);
 
         accleratorMotor = new WPI_VictorSPX(Constants.Serializer.ACCLERATOR_MOTOR_ID);
         accleratorMotor.configFactoryDefault();
         accleratorMotor.setNeutralMode(NeutralMode.Brake);
+
+        rollerMotor = new WPI_TalonSRX(Constants.Serializer.ROLLER_MOTOR_ID);
+        rollerMotor.configFactoryDefault();
+        rollerMotor.setNeutralMode(NeutralMode.Coast);
     }
 
     /**
@@ -33,6 +40,7 @@ public class SerializerSubsystem extends SubsystemBase {
      */
     public void activateBrushes () {
         brushMotor.set(ControlMode.PercentOutput, Constants.Serializer.BRUSH_POWER);
+        rollerMotor.set(ControlMode.PercentOutput, Constants.Serializer.ROLLER_POWER);
     }
 
     /**
@@ -40,6 +48,7 @@ public class SerializerSubsystem extends SubsystemBase {
      */
     public void disableBrushes () {
         brushMotor.stopMotor();
+        rollerMotor.stopMotor();
     }
 
     /**

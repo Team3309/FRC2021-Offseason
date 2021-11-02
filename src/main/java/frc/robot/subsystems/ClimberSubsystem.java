@@ -23,6 +23,7 @@ public class ClimberSubsystem extends SubsystemBase {
         winchMotor = new WPI_TalonFX(Constants.Climber.WINCH_MOTOR_ID);
         winchMotor.configFactoryDefault();
         winchMotor.setNeutralMode(NeutralMode.Brake);
+        winchMotor.setInverted(true);
 
         climberPiston = new Solenoid(Constants.Climber.PCM_PORT);
     }
