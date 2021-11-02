@@ -110,6 +110,7 @@ public class ShooterSubsystem extends SubsystemBase {
         outerFlywheelSpeedROC = (outerFlywheelSpeed - lastOuterFlywheelSpeed) / t.get();
         t.reset();
 
-        SmartDashboard.putNumber("Main flywheel speed", getFlywheelSpeed());
+        SmartDashboard.putNumber("Main flywheel speed", getMainFlywheelSpeed());
+        SmartDashboard.putNumber("Outer flywheel speed", getOuterFlywheelSpeed());
     }
 }
