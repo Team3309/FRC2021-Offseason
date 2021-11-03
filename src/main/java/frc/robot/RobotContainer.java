@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AimAndShoot;
 import frc.robot.commands.Climb;
 import frc.robot.commands.DriveTeleop;
-import frc.robot.commands.DriveTest;
 import frc.robot.commands.Intake;
-import frc.robot.commands.autos.FollowTrajectory;
+import frc.robot.commands.Outtake;
+import frc.robot.commands.ReverseSerializerRoller;
 import frc.robot.commands.autos.TestAuto;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -25,8 +25,6 @@ import frc.robot.subsystems.ShooterSubsystem;
 import friarLib2.hid.LambdaTrigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -44,7 +42,7 @@ public class RobotContainer {
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-  private final TestAuto testTrajectory = new TestAuto(drive);
+  private final TestAuto testTrajectory = new TestAuto(arm, drive);
 
   /** 
    * The container for the robot. Contains subsystems, OI devices, and commands. 
@@ -70,21 +68,26 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     /** Deploy the climber when the left bumper is pressed */
-    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kBumperLeft.value)
-    .whenPressed(() -> climber.deploy(), climber);
+    new LambdaTrigger(() -> OperatorInterface.OperatorController.getBumper(Hand.kLeft))
+    .whenActive(() -> climber.deploy(), climber);
 
     /** When the left trigger is pressed, activate the winch motor */
-    new LambdaTrigger(() -> {return OperatorInterface.OperatorController.getTriggerAxis(Hand.kLeft) >= .1;})
+    new LambdaTrigger(() -> OperatorInterface.OperatorController.getTriggerAxis(Hand.kLeft) >= .1)
     .whileActiveContinuous(new Climb(climber));
 
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getAButton())
     .whileActiveContinuous(new Intake(intake, serializer, arm));
 
-    new LambdaTrigger(() -> OperatorInterface.DriverLeft.getTrigger() || OperatorInterface.DriverRight.getTrigger())
-    //.whenActive(new FollowTrajectory(drive, "Unnamed_0.wpilib.json"));
-    //.whenActive(new DriveTest(drive));
-    //.whileActiveContinuous(() -> arm.setArmPosition(Constants.Arm.VISION_SEEK_ANGLE), arm);
-    .whileActiveContinuous(new AimAndShoot(drive, arm, serializer, shooter));
+    new LambdaTrigger(() -> OperatorInterface.OperatorController.getXButton())
+    .whileActiveContinuous(new Outtake(intake, serializer, arm));
+
+    new LambdaTrigger(() -> OperatorInterface.OperatorController.getYButton())
+    .whileActiveContinuous(new ReverseSerializerRoller(serializer));
+
+    new LambdaTrigger(() -> OperatorInterface.OperatorController.getPOV() == 180)
+    .whileActiveContinuous(
+        new AimAndShoot(() -> OperatorInterface.OperatorController.getXButton(), 
+        drive, arm, serializer, shooter));
   }
 
   /**

@@ -11,7 +11,8 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
 
     private WPI_TalonFX winchMotor;
-    private Solenoid climberPiston;
+    private Solenoid climberPiston1;
+    private Solenoid climberPiston2;
 
     /** 
      * True if the climber has been extended at any point after the
@@ -25,14 +26,16 @@ public class ClimberSubsystem extends SubsystemBase {
         winchMotor.setNeutralMode(NeutralMode.Brake);
         winchMotor.setInverted(true);
 
-        climberPiston = new Solenoid(Constants.Climber.PCM_PORT);
+        climberPiston1 = new Solenoid(Constants.Climber.PCM_PORT_1);
+        climberPiston2 = new Solenoid(Constants.Climber.PCM_PORT_2);
     }
 
     /**
      * Extend the climber
      */
     public void deploy () {
-        climberPiston.set(true);
+        climberPiston1.set(true);
+        climberPiston2.set(true);
         hasBeenExtended = true;
     }
 
@@ -40,7 +43,8 @@ public class ClimberSubsystem extends SubsystemBase {
      * Retract the climber
      */
     public void retract () {
-        climberPiston.set(false);
+        climberPiston1.set(false);
+        climberPiston2.set(false);
     }
 
     /**

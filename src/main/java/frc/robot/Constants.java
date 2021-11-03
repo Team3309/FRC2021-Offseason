@@ -32,7 +32,8 @@ public final class Constants {
         public static final int WINCH_MOTOR_ID = 2;
 
         /******** Pneumatics ********/
-        public static final int PCM_PORT = 3;
+        public static final int PCM_PORT_1 = 7; //
+        public static final int PCM_PORT_2 = 1;
 
         /******** Tuning Constatnts ********/
         public static final double WINCH_POWER = .4;
@@ -50,7 +51,7 @@ public final class Constants {
 
         /******** Physical Constants ********/
         public static final int LIMIT_SWITCH_PORT = 0; // Digital input port on the RoboRIO that the arm's limit switch is connected too
-        public static final double LIMIT_SWITCH_ANGLE = -10; // The angle that the arm is at when the limit switch is triggered
+        public static final double LIMIT_SWITCH_ANGLE = 0; // The angle that the arm is at when the limit switch is triggered
 
         public static final double ARM_GEAR_RATIO = 45.0 / 1.0;
 
@@ -94,11 +95,12 @@ public final class Constants {
         public static final int MOTOR_ID = 3;
 
         /******** Pneumatics ********/
-        public static final int FIRST_PCM_PORT = 1;
-        public static final int SECOND_PCM_PORT = 2;
+        public static final int FIRST_PCM_PORT = 4;
+        public static final int SECOND_PCM_PORT = 0;
 
         /******** Tuning Constants ********/
         public static final double MOTOR_POWER = 1;
+        public static final double OUTTAKE_POWER = .75;
     }
 
     /**
@@ -111,9 +113,11 @@ public final class Constants {
         public static final int ACCLERATOR_MOTOR_ID = 15;
 
         /******** Tuning Constants ********/
-        public static final double BRUSH_POWER = .5;
+        public static final double BRUSH_POWER = .75;
         public static final double ACCLERATOR_POWER = 1.0;
         public static final double ROLLER_POWER = 1.0;
+        public static final double BRUSH_REVERSE_POWER = .75;
+        public static final double ROLLER_REVERSE_POWER = 1.0;
     }
 
     /**

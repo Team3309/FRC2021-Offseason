@@ -35,34 +35,51 @@ public class SerializerSubsystem extends SubsystemBase {
         rollerMotor.setNeutralMode(NeutralMode.Coast);
     }
 
-    /**
-     * Enable the brushes
-     */
     public void activateBrushes () {
         brushMotor.set(ControlMode.PercentOutput, Constants.Serializer.BRUSH_POWER);
-        rollerMotor.set(ControlMode.PercentOutput, Constants.Serializer.ROLLER_POWER);
     }
 
-    /**
-     * Disable the brushes
-     */
     public void disableBrushes () {
         brushMotor.stopMotor();
-        rollerMotor.stopMotor();
     }
 
-    /**
-     * Enable the brushes
-     */
+    public void reverseBrushes () {
+        brushMotor.set(ControlMode.PercentOutput, -Constants.Serializer.BRUSH_REVERSE_POWER);
+    }
+
     public void activateAcclerator () {
         accleratorMotor.set(ControlMode.PercentOutput, Constants.Serializer.ACCLERATOR_POWER);
     }
 
-    /**
-     * Disable the brushes
-     */
     public void disableAcclerator () {
         accleratorMotor.stopMotor();
+    }
+
+    public void activateRoller () {
+        rollerMotor.set(ControlMode.PercentOutput, Constants.Serializer.ROLLER_POWER);
+    }
+
+    public void disableRoller () {
+        rollerMotor.stopMotor();
+    }
+
+    public void reverseRoller () {
+        rollerMotor.set(ControlMode.PercentOutput, -Constants.Serializer.ROLLER_REVERSE_POWER);
+    }
+
+    public void activateBrushesAndRoller () {
+        activateBrushes();
+        activateRoller();
+    }
+
+    public void disableBrushesAndRoller () {
+        disableBrushes();
+        disableRoller();
+    }
+
+    public void reverseBrushesAndRoller () {
+        reverseBrushes();
+        reverseRoller();
     }
 
     /**

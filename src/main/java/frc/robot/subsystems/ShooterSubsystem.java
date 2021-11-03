@@ -113,12 +113,14 @@ public class ShooterSubsystem extends SubsystemBase {
         double mainFlywheelSpeed = getMainFlywheelSpeed();
         double outerFlywheelSpeed = getOuterFlywheelSpeed();
 
-        mainFlywheelSpeedROC = (mainFlywheelSpeed - lastMainFlywheelSpeed) / t.get();
-        outerFlywheelSpeedROC = (outerFlywheelSpeed - lastOuterFlywheelSpeed) / t.get();
-        t.reset();
+        if (t.get() >= 0.200) {
+            mainFlywheelSpeedROC = (mainFlywheelSpeed - lastMainFlywheelSpeed) / t.get();
+            outerFlywheelSpeedROC = (outerFlywheelSpeed - lastOuterFlywheelSpeed) / t.get();
+            t.reset();
 
-        lastMainFlywheelSpeed = mainFlywheelSpeed;
-        lastOuterFlywheelSpeed = outerFlywheelSpeed;
+            lastMainFlywheelSpeed = mainFlywheelSpeed;
+            lastOuterFlywheelSpeed = outerFlywheelSpeed;
+        }
 
         SmartDashboard.putNumber("Main flywheel speed", getMainFlywheelSpeed());
         SmartDashboard.putNumber("Outer flywheel speed", getOuterFlywheelSpeed());

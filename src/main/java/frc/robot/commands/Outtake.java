@@ -6,13 +6,13 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SerializerSubsystem;
 
-public class Intake extends CommandBase {
+public class Outtake extends CommandBase {
 
     IntakeSubsystem intake;
     SerializerSubsystem serializer;
     ArmSubsystem arm;
 
-    public Intake (IntakeSubsystem intake, SerializerSubsystem serializer, ArmSubsystem arm) {
+    public Outtake (IntakeSubsystem intake, SerializerSubsystem serializer, ArmSubsystem arm) {
         this.intake = intake;
         this.serializer = serializer;
         this.arm = arm;
@@ -24,8 +24,8 @@ public class Intake extends CommandBase {
     @Override
     public void initialize() {
         arm.setArmPosition(Constants.Arm.INTAKE_ANGLE);
-        intake.deploy();
-        serializer.activateBrushesAndRoller();
+        intake.outtake();
+        serializer.reverseBrushesAndRoller();
     }
 
     // Called once the command ends or is interrupted.

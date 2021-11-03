@@ -11,12 +11,15 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class AimAndShoot extends CommandBase {
 
+    TriggerCondition shootCondiditon;
+
     DriveSubsystem drive;
     ArmSubsystem arm;
     SerializerSubsystem serializer;
     ShooterSubsystem shooter;
 
-    public AimAndShoot (DriveSubsystem drive, ArmSubsystem arm, SerializerSubsystem serializer, ShooterSubsystem shooter) {
+    public AimAndShoot (TriggerCondition shootCondiditon, DriveSubsystem drive, ArmSubsystem arm, SerializerSubsystem serializer, ShooterSubsystem shooter) {
+        this.shootCondiditon = shootCondiditon;
         this.drive = drive;
         this.arm = arm;
         this.serializer = serializer;
@@ -44,7 +47,7 @@ public class AimAndShoot extends CommandBase {
             -Constants.Drive.ROTATION_PID_CONTROLLER.calculate(targetx, 0));
 
         // Shoot powercells
-        if (OperatorInterface.OperatorController.getXButton() && shooter.isFlywheelUpToSpeed()) {
+        if (shootCondiditon.get() && shooter.isFlywheelUpToSpeed()) {
             serializer.activateBrushes();
             serializer.activateAcclerator();
         } else {
@@ -65,5 +68,9 @@ public class AimAndShoot extends CommandBase {
     @Override
     public boolean isFinished() {
         return false;
+    }
+
+    public interface TriggerCondition {
+        boolean get();
     }
 }

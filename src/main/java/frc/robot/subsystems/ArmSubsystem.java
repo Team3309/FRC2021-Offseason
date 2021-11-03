@@ -44,7 +44,6 @@ public class ArmSubsystem extends SubsystemBase {
         PIDParameters.configureMotorPID(armMotor, Constants.Arm.ARM_PID);
 
         limitSwitch = new DigitalInput(Constants.Arm.LIMIT_SWITCH_PORT);
-        zeroArmPosition();
 
         // Initialize regression with values from Constants.java
         regression = new LinearRegression(Constants.Shooter.AIM_REGRESSION_DATA);
@@ -105,6 +104,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     public double getArmSpeed () {
         return UnitConversions.Arm.armEncoderTicksToDegrees(armMotor.getSelectedSensorVelocity()) /10.0;
+    }
+
+    public boolean isArmAtPosition () {
+        return profile.totalTime() > timer.get();
     }
 
     /**
