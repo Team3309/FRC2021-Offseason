@@ -41,7 +41,7 @@ public class ArmSubsystem extends SubsystemBase {
         armMotor.setNeutralMode(NeutralMode.Brake);
         armMotor.setInverted(true);
         armMotor.setSelectedSensorPosition(UnitConversions.Arm.armDegreesToEncoderTicks(Constants.Arm.START_CONFIG_ANGLE));
-        PIDParameters.configureMotorPID(armMotor, Constants.Arm.ARM_PID);
+        Constants.Arm.ARM_PID.configureMotorPID(armMotor);
 
         limitSwitch = new DigitalInput(Constants.Arm.LIMIT_SWITCH_PORT);
 

@@ -105,7 +105,7 @@ public class DriveSubsystem extends SubsystemBase {
         master.configFactoryDefault();
         master.setInverted(inverted);
         master.setNeutralMode(NeutralMode.Brake);
-        PIDParameters.configureMotorPID(master, Constants.Drive.WHEEL_PID_CONSTANTS);
+        Constants.Drive.WHEEL_PID_CONSTANTS.configureMotorPID(master);
 
         slave.configFactoryDefault();
         slave.setInverted(inverted);

@@ -100,7 +100,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private void configureMotorPair (TalonFX master, TalonFX slave, PIDParameters pid) {
         master.configFactoryDefault();
         master.setNeutralMode(NeutralMode.Coast);
-        PIDParameters.configureMotorPID(master, pid);
+        pid.configureMotorPID(master);
         //master.config_IntegralZone(0, UnitConversions.Shooter.mainFlywheelRPMToEncoderTicksPer100ms(RPM))
 
         slave.follow(master);
@@ -113,7 +113,7 @@ public class ShooterSubsystem extends SubsystemBase {
         double mainFlywheelSpeed = getMainFlywheelSpeed();
         double outerFlywheelSpeed = getOuterFlywheelSpeed();
 
-        if (t.get() >= 0.200) {
+        if (t.get() >= 0.100) {
             mainFlywheelSpeedROC = (mainFlywheelSpeed - lastMainFlywheelSpeed) / t.get();
             outerFlywheelSpeedROC = (outerFlywheelSpeed - lastOuterFlywheelSpeed) / t.get();
             t.reset();

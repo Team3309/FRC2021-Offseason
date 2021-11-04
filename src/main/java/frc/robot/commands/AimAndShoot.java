@@ -8,16 +8,48 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.SerializerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.util.FiringSolution;
 
 public class AimAndShoot extends CommandBase {
 
     TriggerCondition shootCondiditon;
+    FiringSolution firingSolution = null;
 
     DriveSubsystem drive;
     ArmSubsystem arm;
     SerializerSubsystem serializer;
     ShooterSubsystem shooter;
 
+    /**
+     * Initialize an AimAndShoot that goes to the firingSolution
+     * 
+     * @param firingSolution
+     * @param shootCondiditon
+     * @param drive
+     * @param arm
+     * @param serializer
+     * @param shooter
+     */
+    public AimAndShoot (FiringSolution firingSolution, TriggerCondition shootCondiditon, DriveSubsystem drive, ArmSubsystem arm, SerializerSubsystem serializer, ShooterSubsystem shooter) {
+        this.firingSolution = firingSolution;
+        this.shootCondiditon = shootCondiditon;
+        this.drive = drive;
+        this.arm = arm;
+        this.serializer = serializer;
+        this.shooter = shooter;
+
+        addRequirements(drive, arm, serializer, shooter);
+    }
+
+    /**
+     * Initialize an AimAndShoot that automatically aims
+     * 
+     * @param shootCondiditon
+     * @param drive
+     * @param arm
+     * @param serializer
+     * @param shooter
+     */
     public AimAndShoot (TriggerCondition shootCondiditon, DriveSubsystem drive, ArmSubsystem arm, SerializerSubsystem serializer, ShooterSubsystem shooter) {
         this.shootCondiditon = shootCondiditon;
         this.drive = drive;
@@ -31,13 +63,19 @@ public class AimAndShoot extends CommandBase {
     @Override
     public void initialize() {
         // Activate shooter
-        shooter.activateFlywheels();
+        if (firingSolution == null) {
+            shooter.activateFlywheels();
+        } else {
+            firingSolution.goToSolution(arm, shooter);
+        }
     }
 
     @Override
     public void execute() {
         // Move the arm to aim at the target
-        //arm.aim();
+        if (firingSolution == null) {
+            arm.aim();
+        }        
         
         double targetx = Vision.mainCamera.hasTargets() ? Vision.mainCamera.getBestTarget().getX() : 0;
 

@@ -22,6 +22,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SerializerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.util.FiringSolution;
 import friarLib2.hid.LambdaTrigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -87,6 +88,12 @@ public class RobotContainer {
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getPOV() == 180)
     .whileActiveContinuous(
         new AimAndShoot(() -> OperatorInterface.OperatorController.getXButton(), 
+        drive, arm, serializer, shooter));
+
+    new LambdaTrigger(() -> OperatorInterface.OperatorController.getPOV() == 0)
+    .whileActiveContinuous(
+        new AimAndShoot(new FiringSolution(0),
+        () -> OperatorInterface.OperatorController.getXButton(), 
         drive, arm, serializer, shooter));
   }
 

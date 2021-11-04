@@ -32,7 +32,7 @@ public final class Constants {
         public static final int WINCH_MOTOR_ID = 2;
 
         /******** Pneumatics ********/
-        public static final int PCM_PORT_1 = 7; //
+        public static final int PCM_PORT_1 = 7;
         public static final int PCM_PORT_2 = 1;
 
         /******** Tuning Constatnts ********/
@@ -47,7 +47,7 @@ public final class Constants {
         public static final int ARM_MOTOR_ID = 1;
 
         /******** PID Constants ********/
-        public static final PIDParameters ARM_PID = new PIDParameters(0.2, 2.54972071e-05, 10.0);
+        public static final PIDParameters ARM_PID = new PIDParameters(0.2, 2.54972071e-05, 10.0, "Arm PID");
 
         /******** Physical Constants ********/
         public static final int LIMIT_SWITCH_PORT = 0; // Digital input port on the RoboRIO that the arm's limit switch is connected too
@@ -78,7 +78,7 @@ public final class Constants {
         public static final int RIGHT_SLAVE_ID = 19;
 
         /******** PID Constants ********/
-        public static final PIDParameters WHEEL_PID_CONSTANTS = new PIDParameters(0.3, 0.0001, .6);
+        public static final PIDParameters WHEEL_PID_CONSTANTS = new PIDParameters(0.3, 0.0001, .6, "Drive wheel PID");
         public static final PIDController ROTATION_PID_CONTROLLER = new PIDController(0.02, 0, 0.0005);
 
         /******** Physical Constants ********/
@@ -131,8 +131,8 @@ public final class Constants {
         public static final int OUTER_FLYWHEEL_SLAVE_ID = 17;
 
         /******** PID Constants ********/
-        public static final PIDParameters MAIN_FLYWHEEL_PID = new PIDParameters(0.7, 0.00003, 1);
-        public static final PIDParameters OUTER_FLYWHEEL_PID = new PIDParameters(0.8, 0.0001, 1);
+        public static final PIDParameters MAIN_FLYWHEEL_PID = new PIDParameters(0.9, 0.00003, 3, "Main flywheel PID");
+        public static final PIDParameters OUTER_FLYWHEEL_PID = new PIDParameters(0.5, 0.00015, 5, "Outer flywheel PID");
 
         /******** PID Constants ********/
         public static final double MAIN_FLYWHEEL_GEAR_RATIO = 6.0 / 5.0;
@@ -140,12 +140,12 @@ public final class Constants {
 
         /******** Tuning Constants ********/
         public static final int MAIN_FLYWHEEL_SPEED_TOLERANCE = 200; // Only shoot powercells if flywheels are within this range of their target speed
-        public static final double MAIN_FLYWHEEL_ROC_TOLERANCE = 200; // Only shoot powercells if the flywheels' speeds' rate of change is below this value
+        public static final double MAIN_FLYWHEEL_ROC_TOLERANCE = 5000; // Only shoot powercells if the flywheels' speeds' rate of change is below this value
         public static final int OUTER_FLYWHEEL_SPEED_TOLERANCE = 200;
-        public static final double OUTER_FLYWHEEL_ROC_TOLERANCE = 200;
+        public static final double OUTER_FLYWHEEL_ROC_TOLERANCE = 5000;
 
-        public static final double MAIN_FLYWHEEL_SHOOTING_RPM = 4000;
-        public static final double OUTER_FLYWHEEL_SHOOTING_RPM = 4000;
+        public static final double MAIN_FLYWHEEL_SHOOTING_RPM = 5500;
+        public static final double OUTER_FLYWHEEL_SHOOTING_RPM = 3000;
 
         /**
          * A 2D array for tuning the shooter.
