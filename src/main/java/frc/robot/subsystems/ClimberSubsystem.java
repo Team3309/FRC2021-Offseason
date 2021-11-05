@@ -4,15 +4,15 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
 
     private WPI_TalonFX winchMotor;
-    private Solenoid climberPiston1;
-    private Solenoid climberPiston2;
+    private DoubleSolenoid climberPiston;
 
     /** 
      * True if the climber has been extended at any point after the
@@ -26,16 +26,14 @@ public class ClimberSubsystem extends SubsystemBase {
         winchMotor.setNeutralMode(NeutralMode.Brake);
         winchMotor.setInverted(true);
 
-        climberPiston1 = new Solenoid(Constants.Climber.PCM_PORT_1);
-        climberPiston2 = new Solenoid(Constants.Climber.PCM_PORT_2);
+        climberPiston = new DoubleSolenoid(Constants.Climber.PCM_PORT_2, Constants.Climber.PCM_PORT_1);
     }
 
     /**
      * Extend the climber
      */
     public void deploy () {
-        climberPiston1.set(true);
-        climberPiston2.set(true);
+        climberPiston.set(Value.kForward);
         hasBeenExtended = true;
     }
 
@@ -43,8 +41,7 @@ public class ClimberSubsystem extends SubsystemBase {
      * Retract the climber
      */
     public void retract () {
-        climberPiston1.set(false);
-        climberPiston2.set(false);
+        climberPiston.set(Value.kReverse);
     }
 
     /**

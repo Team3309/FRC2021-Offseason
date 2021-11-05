@@ -13,8 +13,10 @@ import frc.robot.commands.AimAndShoot;
 import frc.robot.commands.Climb;
 import frc.robot.commands.DriveTeleop;
 import frc.robot.commands.Intake;
+import frc.robot.commands.LineUpWithTarget;
 import frc.robot.commands.Outtake;
 import frc.robot.commands.ReverseSerializerRoller;
+import frc.robot.commands.autos.ScorePreloads;
 import frc.robot.commands.autos.TestAuto;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -22,7 +24,6 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SerializerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.util.FiringSolution;
 import friarLib2.hid.LambdaTrigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -34,31 +35,31 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ArmSubsystem arm = new ArmSubsystem();
-  private final ClimberSubsystem climber = new ClimberSubsystem();
-  private final DriveSubsystem drive = new DriveSubsystem();
-  private final IntakeSubsystem intake = new IntakeSubsystem();
-  private final SerializerSubsystem serializer = new SerializerSubsystem();
-  private final ShooterSubsystem shooter = new ShooterSubsystem();
+    // The robot's subsystems and commands are defined here...
+    private final ArmSubsystem arm = new ArmSubsystem();
+    private final ClimberSubsystem climber = new ClimberSubsystem();
+    private final DriveSubsystem drive = new DriveSubsystem();
+    private final IntakeSubsystem intake = new IntakeSubsystem();
+    private final SerializerSubsystem serializer = new SerializerSubsystem();
+    private final ShooterSubsystem shooter = new ShooterSubsystem();
 
-  private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-  private final TestAuto testTrajectory = new TestAuto(arm, drive);
+    private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+    private final ScorePreloads preloadAuto = new ScorePreloads(arm, drive, serializer, shooter);
 
-  /** 
-   * The container for the robot. Contains subsystems, OI devices, and commands. 
-   */
-  public RobotContainer() {
-    autoChooser.setDefaultOption("Test auto", testTrajectory);
-    SmartDashboard.putData(autoChooser);
+    /** 
+    * The container for the robot. Contains subsystems, OI devices, and commands. 
+    */
+    public RobotContainer() {
+        autoChooser.setDefaultOption("Preload auto", preloadAuto);
+        SmartDashboard.putData(autoChooser);
 
-    configureDefaultCommands();
-    configureButtonBindings();
-  }
+        configureDefaultCommands();
+        configureButtonBindings();
+    }
 
-  private void configureDefaultCommands () {
-    drive.setDefaultCommand(new DriveTeleop(drive));
-  }
+    private void configureDefaultCommands () {
+        drive.setDefaultCommand(new DriveTeleop(drive));
+    }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -87,14 +88,30 @@ public class RobotContainer {
 
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getPOV() == 180)
     .whileActiveContinuous(
-        new AimAndShoot(() -> OperatorInterface.OperatorController.getXButton(), 
-        drive, arm, serializer, shooter));
+        new AimAndShoot(() -> OperatorInterface.OperatorController.getBButton(), 
+        arm, serializer, shooter));
 
+    // Lobbing into target
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getPOV() == 0)
     .whileActiveContinuous(
-        new AimAndShoot(new FiringSolution(0),
-        () -> OperatorInterface.OperatorController.getXButton(), 
-        drive, arm, serializer, shooter));
+        new AimAndShoot(
+            Constants.Shooter.LOB_INTO_GOAL,
+            () -> OperatorInterface.OperatorController.getBButton(), 
+            arm, serializer, shooter));
+
+    // Shooting from starting line
+    new LambdaTrigger(() -> OperatorInterface.OperatorController.getPOV() == 90)
+    .whileActiveContinuous(
+        new AimAndShoot(
+            Constants.Shooter.SHOOT_FROM_STARTING_LINE,
+            () -> OperatorInterface.OperatorController.getBButton(), 
+            arm, serializer, shooter));
+
+    new LambdaTrigger(() -> OperatorInterface.DriverLeft.getTrigger() && OperatorInterface.DriverRight.getTrigger())
+    .whileActiveContinuous(new LineUpWithTarget(drive));
+
+    new LambdaTrigger(() -> OperatorInterface.OperatorController.getBumper(Hand.kRight))
+    .whileActiveContinuous(() -> arm.zeroArmPosition(), arm);
   }
 
   /**
@@ -103,12 +120,12 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+      return autoChooser.getSelected();
   }
 
   public Command getTeleopInitCommand() {
-    System.out.println("Teleop init");
-    arm.setArmPositionToCurrentPosition();
-    return new InstantCommand(arm::setArmPositionToCurrentPosition, arm);
+      System.out.println("Teleop init");
+      arm.setArmPositionToCurrentPosition();
+      return new InstantCommand(arm::setArmPositionToCurrentPosition, arm);
   }
 }

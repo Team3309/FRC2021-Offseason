@@ -83,13 +83,15 @@ public class ShooterSubsystem extends SubsystemBase {
      * are below their tuned values
      */
     public boolean isFlywheelUpToSpeed () {
+        boolean isRunning = getMainFlywheelSpeed() >= 50 && getOuterFlywheelSpeed() >= 50;
+
         boolean mainFlywheelUpToSpeed = (mainFlywheelMaster.getClosedLoopError() <= Constants.Shooter.MAIN_FLYWHEEL_SPEED_TOLERANCE) && 
             (mainFlywheelSpeedROC <= Constants.Shooter.MAIN_FLYWHEEL_ROC_TOLERANCE);
 
         boolean outerFlywheelUpToSpeed = (outerFlywheelSlave.getClosedLoopError() <= Constants.Shooter.OUTER_FLYWHEEL_SPEED_TOLERANCE) && 
             (outerFlywheelSpeedROC <= Constants.Shooter.OUTER_FLYWHEEL_ROC_TOLERANCE);
 
-        return mainFlywheelUpToSpeed && outerFlywheelUpToSpeed;
+        return isRunning && mainFlywheelUpToSpeed && outerFlywheelUpToSpeed;
     }
 
     public void stopFlywheels () {

@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
+import frc.robot.util.FiringSolution;
 import friarLib2.utility.PIDParameters;
 
 /**
@@ -63,7 +64,7 @@ public final class Constants {
 
         /******** Arm Motion Constraints ********/
         public static final double MAX_VELOCITY_DEGREES_PER_SEC = 700;
-        public static final double MAX_ACCLERATION_DEGREES_PER_SEC_SQUARED = 720;
+        public static final double MAX_ACCLERATION_DEGREES_PER_SEC_SQUARED = 400;
     }
 
     /**
@@ -131,21 +132,25 @@ public final class Constants {
         public static final int OUTER_FLYWHEEL_SLAVE_ID = 17;
 
         /******** PID Constants ********/
-        public static final PIDParameters MAIN_FLYWHEEL_PID = new PIDParameters(0.9, 0.00003, 3, "Main flywheel PID");
-        public static final PIDParameters OUTER_FLYWHEEL_PID = new PIDParameters(0.5, 0.00015, 5, "Outer flywheel PID");
+        public static final PIDParameters MAIN_FLYWHEEL_PID = new PIDParameters(1.3, 0.00005, 5, "Main flywheel PID");
+        public static final PIDParameters OUTER_FLYWHEEL_PID = new PIDParameters(0.5, 0.00015, 6, "Outer flywheel PID");
 
         /******** PID Constants ********/
         public static final double MAIN_FLYWHEEL_GEAR_RATIO = 6.0 / 5.0;
         public static final double OUTER_FLYWHEEL_GEAR_RATIO = 1.0 / 1.0;
 
         /******** Tuning Constants ********/
-        public static final int MAIN_FLYWHEEL_SPEED_TOLERANCE = 200; // Only shoot powercells if flywheels are within this range of their target speed
+        public static final int MAIN_FLYWHEEL_SPEED_TOLERANCE = 250; // Only shoot powercells if flywheels are within this range of their target speed
         public static final double MAIN_FLYWHEEL_ROC_TOLERANCE = 5000; // Only shoot powercells if the flywheels' speeds' rate of change is below this value
-        public static final int OUTER_FLYWHEEL_SPEED_TOLERANCE = 200;
+        public static final int OUTER_FLYWHEEL_SPEED_TOLERANCE = 250;
         public static final double OUTER_FLYWHEEL_ROC_TOLERANCE = 5000;
 
         public static final double MAIN_FLYWHEEL_SHOOTING_RPM = 5500;
         public static final double OUTER_FLYWHEEL_SHOOTING_RPM = 3000;
+
+        /******** Firing soulutions ********/
+        public static final FiringSolution LOB_INTO_GOAL = new FiringSolution(5500, 3000, 20);
+        public static final FiringSolution SHOOT_FROM_STARTING_LINE = new FiringSolution(100);
 
         /**
          * A 2D array for tuning the shooter.

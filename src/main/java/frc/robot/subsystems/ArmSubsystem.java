@@ -95,7 +95,7 @@ public class ArmSubsystem extends SubsystemBase {
      * <p>Assumes that the arm is at the limit switch
      */
     public void zeroArmPosition () {
-        armMotor.setSelectedSensorPosition(UnitConversions.Arm.armDegreesToEncoderTicks(Constants.Arm.LIMIT_SWITCH_ANGLE));
+        armMotor.setSelectedSensorPosition(UnitConversions.Arm.armDegreesToEncoderTicks(0));
     }
 
     public double getArmPosition () {
