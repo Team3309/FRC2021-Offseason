@@ -23,6 +23,8 @@ public class RunForTime extends CommandBase {
 
     @Override
     public void initialize() {
+        t.reset();
+        t.start();
         command.initialize();
     }
 

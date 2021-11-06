@@ -17,8 +17,8 @@ public class ScorePreloads extends SequentialCommandGroup {
                     Constants.Shooter.SHOOT_FROM_STARTING_LINE, 
                     () -> true, 
                     arm, serializer, shooter), 
-                10),
-            new DriveForward(.25, 2, drive)
+                14),
+            new DriveForward(-.25, .5, drive)
         );
     }
 }
