@@ -71,7 +71,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param turn positive is right
      */
     public void setDrivePowerArcade (double throttle, double turn) {
-        setDrivePower(throttle + turn, throttle - turn);
+        setDrivePower(-throttle + turn, -throttle - turn);
     }
     
     /**

@@ -40,13 +40,15 @@ public class ShooterSubsystem extends SubsystemBase {
         configureMotorPair(
             mainFlywheelMaster,
             mainFlywheelSlave,
-            Constants.Shooter.MAIN_FLYWHEEL_PID);
+            Constants.Shooter.MAIN_FLYWHEEL_PID,
+            false);
 
         // Configure outer flywheel motors
         configureMotorPair(
             outerFlywheelMaster, 
             outerFlywheelSlave,
-            Constants.Shooter.OUTER_FLYWHEEL_PID);
+            Constants.Shooter.OUTER_FLYWHEEL_PID,
+            true);
 
         t = new Timer();
         t.start();
@@ -99,14 +101,15 @@ public class ShooterSubsystem extends SubsystemBase {
         outerFlywheelMaster.stopMotor();
     }
 
-    private void configureMotorPair (TalonFX master, TalonFX slave, PIDParameters pid) {
+    private void configureMotorPair (TalonFX master, TalonFX slave, PIDParameters pid, boolean inverted) {
         master.configFactoryDefault();
         master.setNeutralMode(NeutralMode.Coast);
+        master.setInverted(inverted);
         pid.configureMotorPID(master);
         //master.config_IntegralZone(0, UnitConversions.Shooter.mainFlywheelRPMToEncoderTicksPer100ms(RPM))
 
         slave.follow(master);
-        slave.setInverted(true);
+        slave.setInverted(!inverted);
     }
 
     @Override

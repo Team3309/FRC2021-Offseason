@@ -60,6 +60,7 @@ public final class Constants {
         public static final double START_CONFIG_ANGLE = 0; // Angle that arm is in when robot is turned on
         public static final double STOWED_ANGLE = 0; // Angle where robot fits under the Wheel of Fortune (WOF)
         public static final double INTAKE_ANGLE = 0; // Angle required for intaking power cells
+        public static final double OUTTAKE_ANGLE = 15;
         public static final double VISION_SEEK_ANGLE = 100; // Angle for finding targets
 
         /******** Arm Motion Constraints ********/
@@ -114,7 +115,7 @@ public final class Constants {
         public static final int ACCLERATOR_MOTOR_ID = 15;
 
         /******** Tuning Constants ********/
-        public static final double BRUSH_POWER = .75;
+        public static final double BRUSH_POWER = .6;
         public static final double ACCLERATOR_POWER = 1.0;
         public static final double ROLLER_POWER = 1.0;
         public static final double BRUSH_REVERSE_POWER = .75;

@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.Controller;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -33,6 +34,7 @@ public class ArmSubsystem extends SubsystemBase {
     private Timer timer = new Timer();
     private TrapezoidProfile.State targetState;
     private double currentSetDegrees = 0;
+    private boolean inClosedLoopMode = true;
 
     public ArmSubsystem () {
         // Set up motor
@@ -73,6 +75,8 @@ public class ArmSubsystem extends SubsystemBase {
      * @param degrees
      */
     public void setArmPosition (double degrees) {
+        inClosedLoopMode = true;
+
         if(degrees == currentSetDegrees){
             return;
         }
@@ -110,6 +114,19 @@ public class ArmSubsystem extends SubsystemBase {
         return profile.totalTime() > timer.get();
     }
 
+    public void setArmPower (double power) {
+        inClosedLoopMode = false;
+        armMotor.set(ControlMode.PercentOutput, power);
+    }
+
+    public void stopArm () {
+        if (!inClosedLoopMode) {
+            armMotor.stopMotor();
+            setArmPositionToCurrentPosition();
+            inClosedLoopMode = true;
+        }
+    }
+
     /**
      * Used to prevent jerking the arm when the robot's been disabled and
      * the arm has fallen/changed positons
@@ -134,13 +151,12 @@ public class ArmSubsystem extends SubsystemBase {
     public void periodic() {
         targetState = profile.calculate(timer.get());
         
-        //if(isArmPositionSynced){
-            // Set motor closed loop target to the TrapezoidProfile's calculated position
+        if (inClosedLoopMode) {
             armMotor.set(
                 ControlMode.Position, 
                 UnitConversions.Arm.armDegreesToEncoderTicks(targetState.position)
             );
-        //}
+        }
         
         SmartDashboard.putNumber("Arm setpoint", armMotor.getClosedLoopTarget());
         SmartDashboard.putNumber("Arm setpoint degrees", UnitConversions.Arm.armEncoderTicksToDegrees(armMotor.getClosedLoopTarget()));
@@ -148,5 +164,6 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Distance", Vision.getDistanceFromTarget(this));
         SmartDashboard.putNumber("Aim angle", regression.evaluate(Vision.getDistanceFromTarget(this)));
         SmartDashboard.putNumber("Arm power", armMotor.getMotorOutputPercent());
+        SmartDashboard.putBoolean("Arm closed loop?", inClosedLoopMode);
     }
 }
