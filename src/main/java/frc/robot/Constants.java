@@ -115,7 +115,7 @@ public final class Constants {
         public static final int ACCLERATOR_MOTOR_ID = 15;
 
         /******** Tuning Constants ********/
-        public static final double BRUSH_POWER = .6;
+        public static final double BRUSH_POWER = .80;
         public static final double ACCLERATOR_POWER = 1.0;
         public static final double ROLLER_POWER = 1.0;
         public static final double BRUSH_REVERSE_POWER = .75;
@@ -133,7 +133,7 @@ public final class Constants {
         public static final int OUTER_FLYWHEEL_SLAVE_ID = 17;
 
         /******** PID Constants ********/
-        public static final PIDParameters MAIN_FLYWHEEL_PID = new PIDParameters(1.3, 0.00005, 5, "Main flywheel PID");
+        public static final PIDParameters MAIN_FLYWHEEL_PID = new PIDParameters(1.4, 0.00005, 5, "Main flywheel PID");
         public static final PIDParameters OUTER_FLYWHEEL_PID = new PIDParameters(0.5, 0.00015, 6, "Outer flywheel PID");
 
         /******** PID Constants ********/
@@ -141,9 +141,9 @@ public final class Constants {
         public static final double OUTER_FLYWHEEL_GEAR_RATIO = 1.0 / 1.0;
 
         /******** Tuning Constants ********/
-        public static final int MAIN_FLYWHEEL_SPEED_TOLERANCE = 250; // Only shoot powercells if flywheels are within this range of their target speed
+        public static final int MAIN_FLYWHEEL_SPEED_TOLERANCE = 500; // Only shoot powercells if flywheels are within this range of their target speed
         public static final double MAIN_FLYWHEEL_ROC_TOLERANCE = 5000; // Only shoot powercells if the flywheels' speeds' rate of change is below this value
-        public static final int OUTER_FLYWHEEL_SPEED_TOLERANCE = 250;
+        public static final int OUTER_FLYWHEEL_SPEED_TOLERANCE = 500;
         public static final double OUTER_FLYWHEEL_ROC_TOLERANCE = 5000;
 
         public static final double MAIN_FLYWHEEL_SHOOTING_RPM = 5500;

@@ -135,5 +135,6 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Outer flywheel power", outerFlywheelMaster.getMotorOutputPercent());
         SmartDashboard.putNumber("Main flywheel ROC", mainFlywheelSpeedROC);
         SmartDashboard.putNumber("Outer flywheel ROC", outerFlywheelSpeedROC);
+        SmartDashboard.putBoolean("Shooter up to speed?", isFlywheelUpToSpeed());
     }
 }

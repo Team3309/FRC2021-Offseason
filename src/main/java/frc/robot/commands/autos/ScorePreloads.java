@@ -19,6 +19,7 @@ public class ScorePreloads extends SequentialCommandGroup {
                     Constants.Shooter.SHOOT_FROM_STARTING_LINE, 
                     () -> shooter.getMainFlywheelSpeed() >= 200, 
                     arm, serializer, shooter),
+                    /*:)*/
                 12),
             new DriveForward(-.25, 1.5, drive)
         );
