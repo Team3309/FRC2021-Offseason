@@ -85,7 +85,7 @@ public class ShooterSubsystem extends SubsystemBase {
      * are below their tuned values
      */
     public boolean isFlywheelUpToSpeed () {
-        boolean isRunning = getMainFlywheelSpeed() >= 50 && getOuterFlywheelSpeed() >= 50;
+        boolean isRunning = getMainFlywheelSpeed() >= 500 && getOuterFlywheelSpeed() >= 500;
 
         boolean mainFlywheelUpToSpeed = (mainFlywheelMaster.getClosedLoopError() <= Constants.Shooter.MAIN_FLYWHEEL_SPEED_TOLERANCE) && 
             (mainFlywheelSpeedROC <= Constants.Shooter.MAIN_FLYWHEEL_ROC_TOLERANCE);
@@ -97,6 +97,15 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void stopFlywheels () {
+        mainFlywheelMaster.setNeutralMode(NeutralMode.Coast);
+        outerFlywheelMaster.setNeutralMode(NeutralMode.Coast);
+        mainFlywheelMaster.stopMotor();
+        outerFlywheelMaster.stopMotor();
+    }
+
+    public void brakeFlywheels () {
+        mainFlywheelMaster.setNeutralMode(NeutralMode.Brake);
+        outerFlywheelMaster.setNeutralMode(NeutralMode.Brake);
         mainFlywheelMaster.stopMotor();
         outerFlywheelMaster.stopMotor();
     }

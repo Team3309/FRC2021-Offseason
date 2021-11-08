@@ -11,17 +11,17 @@ import frc.robot.subsystems.ShooterSubsystem;
 import friarLib2.commands.RunForTime;
 
 public class ScorePreloads extends SequentialCommandGroup {
-    public ScorePreloads (ArmSubsystem arm, DriveSubsystem drive, SerializerSubsystem serializer, ShooterSubsystem shooter) {
+    public ScorePreloads (double drivePower, ArmSubsystem arm, DriveSubsystem drive, SerializerSubsystem serializer, ShooterSubsystem shooter) {
         addCommands(
             new ExitStartingConfiguration(arm),
             new RunForTime(
                 new AimAndShoot(
                     Constants.Shooter.SHOOT_FROM_STARTING_LINE, 
-                    () -> shooter.getMainFlywheelSpeed() >= 200, 
+                    () -> shooter.getMainFlywheelSpeed() >= 2000, 
                     arm, serializer, shooter),
                     /*:)*/
                 12),
-            new DriveForward(-.25, 1.5, drive)
+            new DriveForward(drivePower, 1.5, drive)
         );
     }
 }

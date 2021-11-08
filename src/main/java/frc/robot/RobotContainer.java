@@ -10,10 +10,12 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AimAndShoot;
+import frc.robot.commands.BrakeFlywheels;
 import frc.robot.commands.Climb;
 import frc.robot.commands.DriveTeleop;
 import frc.robot.commands.Intake;
 import frc.robot.commands.LineUpWithTarget;
+import frc.robot.commands.MoveArmUpForDefense;
 import frc.robot.commands.Outtake;
 import frc.robot.commands.ReverseSerializerRoller;
 import frc.robot.commands.autos.ScorePreloads;
@@ -44,13 +46,15 @@ public class RobotContainer {
     private final ShooterSubsystem shooter = new ShooterSubsystem();
 
     private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-    private final ScorePreloads preloadAuto = new ScorePreloads(arm, drive, serializer, shooter);
+    private final ScorePreloads scorePreloadsTowardsDriverStation = new ScorePreloads(-.25, arm, drive, serializer, shooter);
+    private final ScorePreloads scorePreloadsAwayFromDriverStation = new ScorePreloads(.25, arm, drive, serializer, shooter);
 
     /** 
     * The container for the robot. Contains subsystems, OI devices, and commands. 
     */
     public RobotContainer() {
-        autoChooser.setDefaultOption("Preload auto", preloadAuto);
+        autoChooser.setDefaultOption("Move towards driver station", scorePreloadsTowardsDriverStation);
+        autoChooser.addOption("Move away from driver station", scorePreloadsAwayFromDriverStation);
         SmartDashboard.putData(autoChooser);
 
         configureDefaultCommands();
@@ -112,6 +116,12 @@ public class RobotContainer {
 
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getBumper(Hand.kRight))
     .whileActiveContinuous(() -> arm.zeroArmPosition(), arm);
+
+    new LambdaTrigger(() -> OperatorInterface.OperatorController.getTriggerAxis(Hand.kRight) >= .1)
+    .whileActiveContinuous(new BrakeFlywheels(shooter));
+
+    new LambdaTrigger(() -> OperatorInterface.OperatorController.getStartButton())
+    .whileActiveContinuous(new MoveArmUpForDefense(arm));
   }
 
   /**

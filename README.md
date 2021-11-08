@@ -14,6 +14,8 @@ The driver uses two large joysticks and the operator uses an xbox controller.
 **Xbox controller (port 2)**:
  - Left bumper: deploy climber
  - Left trigger (only after climber has been deployed): activate climber winch
+ - Right bumper: zero arm encoder
+ - Right trigger: brake flywheels
  - Up d-pad: TBD
  - Down d-pad: Automatically aim
  - Left d-pad: TBD

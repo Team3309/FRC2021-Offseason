@@ -151,7 +151,7 @@ public final class Constants {
 
         /******** Firing soulutions ********/
         public static final FiringSolution LOB_INTO_GOAL = new FiringSolution(5500, 3000, 20);
-        public static final FiringSolution SHOOT_FROM_STARTING_LINE = new FiringSolution(100);
+        public static final FiringSolution SHOOT_FROM_STARTING_LINE = new FiringSolution(107);
 
         /**
          * A 2D array for tuning the shooter.
