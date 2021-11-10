@@ -2,10 +2,10 @@ package friarLib2.vision;
 
 import java.util.List;
 
-import org.photonvision.LEDMode;
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPipelineResult;
-import org.photonvision.PhotonTrackedTarget;
+import org.photonvision.*;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
+import org.photonvision.common.hardware.VisionLEDMode;
 
 public class PhotonCameraWrapper implements VisionCamera {
 
@@ -74,10 +74,10 @@ public class PhotonCameraWrapper implements VisionCamera {
     @Override
     public void setLights(LedMode mode) {
         switch (mode) {
-            case on: camera.setLED(LEDMode.kOn); break;
-            case off: camera.setLED(LEDMode.kOff); break;
-            case blink: camera.setLED(LEDMode.kBlink); break;
-            case currentPipeline: camera.setLED(LEDMode.kDefault); break;
+            case on: camera.setLED(VisionLEDMode.kOn); break;
+            case off: camera.setLED(VisionLEDMode.kOff); break;
+            case blink: camera.setLED(VisionLEDMode.kBlink); break;
+            case currentPipeline: camera.setLED(VisionLEDMode.kDefault); break;
         }
     }
 }
