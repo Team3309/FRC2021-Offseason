@@ -11,8 +11,8 @@ import frc.robot.Constants;
 /**
  * Represents the serializer subsystem
  * 
- * <p>The physical subsystem includes the roller brushes and indexer
- * wheel
+ * <p>The physical subsystem includes the brushes, gate wheel, and 
+ * serializer roller
  */
 public class SerializerSubsystem extends SubsystemBase {
 
@@ -83,7 +83,7 @@ public class SerializerSubsystem extends SubsystemBase {
     }
 
     /**
-     * Turn the acclerator on or off
+     * Turn the acclerator (gate) wheel on or off
      * 
      * @param on
      */

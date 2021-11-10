@@ -26,7 +26,8 @@ public class FiringSolution {
     }
 
     /**
-     * Set the arm and shooter speeds to 
+     * Set the arm and shooter speeds to the values stored in this
+     * object
      * 
      * @param arm
      * @param shooter

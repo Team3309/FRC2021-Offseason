@@ -60,7 +60,6 @@ public class ShooterSubsystem extends SubsystemBase {
      * @param RPM
      */
     public void setFlywheelSpeeds (double mainRPM, double outerRPM) {
-        System.out.println(UnitConversions.Shooter.mainFlywheelRPMToEncoderTicksPer100ms(mainRPM));
         mainFlywheelMaster.set(ControlMode.Velocity, UnitConversions.Shooter.mainFlywheelRPMToEncoderTicksPer100ms(mainRPM));
         outerFlywheelMaster.set(ControlMode.Velocity, UnitConversions.Shooter.outerFlywheelRPMToEncoderTicksPer100ms(outerRPM));
     }
@@ -115,7 +114,6 @@ public class ShooterSubsystem extends SubsystemBase {
         master.setNeutralMode(NeutralMode.Coast);
         master.setInverted(inverted);
         pid.configureMotorPID(master);
-        //master.config_IntegralZone(0, UnitConversions.Shooter.mainFlywheelRPMToEncoderTicksPer100ms(RPM))
 
         slave.follow(master);
         slave.setInverted(!inverted);

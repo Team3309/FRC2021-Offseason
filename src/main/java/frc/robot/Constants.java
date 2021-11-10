@@ -66,6 +66,9 @@ public final class Constants {
         /******** Arm Motion Constraints ********/
         public static final double MAX_VELOCITY_DEGREES_PER_SEC = 700;
         public static final double MAX_ACCLERATION_DEGREES_PER_SEC_SQUARED = 400;
+
+        public static final double EXIT_STARTING_CONFIG_POWER = -.2;
+        public static final double EXIT_STARTInG_CONFIG_ANGLE = 50; // Arm stops moving out of starting config at this angle
     }
 
     /**

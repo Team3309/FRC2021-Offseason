@@ -1,10 +1,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 
 /**
- * Unclip the arm from its starrting position
+ * Unclip the arm from its starting position
  */
 public class ExitStartingConfiguration extends CommandBase {
 
@@ -19,7 +20,7 @@ public class ExitStartingConfiguration extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        arm.setArmPower(-.2);
+        arm.setArmPower(Constants.Arm.EXIT_STARTING_CONFIG_POWER);
     }
 
     // Called once the command ends or is interrupted.
@@ -31,6 +32,6 @@ public class ExitStartingConfiguration extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return arm.getArmPosition() <= 50;
+        return arm.getArmPosition() <= Constants.Arm.EXIT_STARTInG_CONFIG_ANGLE;
     }
 }

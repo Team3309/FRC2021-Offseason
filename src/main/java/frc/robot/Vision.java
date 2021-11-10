@@ -1,8 +1,5 @@
 package frc.robot;
 
-import org.photonvision.PhotonCamera;
-
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.subsystems.ArmSubsystem;
 import friarLib2.vision.PhotonCameraWrapper;
