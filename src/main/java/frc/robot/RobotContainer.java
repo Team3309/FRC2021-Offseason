@@ -19,7 +19,6 @@ import frc.robot.commands.MoveArmUpForDefense;
 import frc.robot.commands.Outtake;
 import frc.robot.commands.ReverseSerializerRoller;
 import frc.robot.commands.autos.ScorePreloads;
-import frc.robot.commands.autos.TestAuto;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -77,25 +76,29 @@ public class RobotContainer {
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getBumper(Hand.kLeft))
     .whenActive(() -> climber.deploy(), climber);
 
-    /** When the left trigger is pressed, activate the winch motor */
+    /** While the left trigger is pressed, activate the winch motor */
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getTriggerAxis(Hand.kLeft) >= .1)
     .whileActiveContinuous(new Climb(climber));
 
+    /** While the A button is pressed, intake powercells */
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getAButton())
     .whileActiveContinuous(new Intake(intake, serializer, arm));
 
+    /** While the X button is pressed, reverse the intake and serializer */
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getXButton())
     .whileActiveContinuous(new Outtake(intake, serializer, arm));
 
+    /** While the Y button is pressed, reverse the serializer motor */
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getYButton())
     .whileActiveContinuous(new ReverseSerializerRoller(serializer));
 
+    /** While d-pad down is pressed, automatically aim and shoot */
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getPOV() == 180)
     .whileActiveContinuous(
         new AimAndShoot(() -> OperatorInterface.OperatorController.getBButton(), 
         arm, serializer, shooter));
 
-    // Lobbing into target
+    /** While d-pad up is pressed, shoot from against driverstation wall */
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getPOV() == 0)
     .whileActiveContinuous(
         new AimAndShoot(
@@ -103,7 +106,7 @@ public class RobotContainer {
             () -> OperatorInterface.OperatorController.getBButton(), 
             arm, serializer, shooter));
 
-    // Shooting from starting line
+    /** While d-pad right is pressed, shoot from initiation line */
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getPOV() == 90)
     .whileActiveContinuous(
         new AimAndShoot(
@@ -111,15 +114,30 @@ public class RobotContainer {
             () -> OperatorInterface.OperatorController.getBButton(), 
             arm, serializer, shooter));
 
+    /** While driver joystick trigger(s) are pressed, line up the robot with the target */
     new LambdaTrigger(() -> OperatorInterface.DriverLeft.getTrigger() && OperatorInterface.DriverRight.getTrigger())
     .whileActiveContinuous(new LineUpWithTarget(drive));
 
+    /** 
+     * When right bumper is pressed, zero the arm encoder.
+     * 
+     * This is in case the arm gearbox slips, which is mostly resolved, but
+     * still a good safety net
+     */
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getBumper(Hand.kRight))
     .whileActiveContinuous(() -> arm.zeroArmPosition(), arm);
 
+    /** While the right trigger is pressed, slow down the flywheels quickly */
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getTriggerAxis(Hand.kRight) >= .1)
     .whileActiveContinuous(new BrakeFlywheels(shooter));
 
+    /** 
+     * While the start button on the xbox controller is pressed, move 
+     * the arm all the way up to block opponents' shots.
+     * 
+     * Used sucessfully in a Beach Blitz 2021 playoff match
+     * TODO: Find out what match that is
+     */
     new LambdaTrigger(() -> OperatorInterface.OperatorController.getStartButton())
     .whileActiveContinuous(new MoveArmUpForDefense(arm));
   }
@@ -134,7 +152,6 @@ public class RobotContainer {
   }
 
   public Command getTeleopInitCommand() {
-      System.out.println("Teleop init");
       arm.setArmPositionToCurrentPosition();
       return new InstantCommand(arm::setArmPositionToCurrentPosition, arm);
   }
