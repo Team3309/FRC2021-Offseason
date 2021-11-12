@@ -1,8 +1,5 @@
 package frc.robot;
 
-import org.photonvision.PhotonCamera;
-
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.subsystems.ArmSubsystem;
 import friarLib2.vision.PhotonCameraWrapper;
@@ -13,7 +10,7 @@ import friarLib2.vision.utility.PixelToAngle;
  * Container for the vision systems
  */
 public class Vision {
-    public static VisionCamera mainCamera = new PhotonCameraWrapper("gloworm");
+    public static VisionCamera mainCamera = new PhotonCameraWrapper("camera");
 
     private static double lastDistance = 0;
 

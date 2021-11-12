@@ -23,7 +23,7 @@ public class Outtake extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        arm.setArmPosition(Constants.Arm.INTAKE_ANGLE);
+        arm.setArmPosition(Constants.Arm.OUTTAKE_ANGLE);
         intake.outtake();
         serializer.reverseBrushesAndRoller();
     }

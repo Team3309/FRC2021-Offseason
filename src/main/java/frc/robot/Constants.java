@@ -60,11 +60,15 @@ public final class Constants {
         public static final double START_CONFIG_ANGLE = 0; // Angle that arm is in when robot is turned on
         public static final double STOWED_ANGLE = 0; // Angle where robot fits under the Wheel of Fortune (WOF)
         public static final double INTAKE_ANGLE = 0; // Angle required for intaking power cells
+        public static final double OUTTAKE_ANGLE = 15;
         public static final double VISION_SEEK_ANGLE = 100; // Angle for finding targets
 
         /******** Arm Motion Constraints ********/
         public static final double MAX_VELOCITY_DEGREES_PER_SEC = 700;
         public static final double MAX_ACCLERATION_DEGREES_PER_SEC_SQUARED = 400;
+
+        public static final double EXIT_STARTING_CONFIG_POWER = -.2;
+        public static final double EXIT_STARTInG_CONFIG_ANGLE = 50; // Arm stops moving out of starting config at this angle
     }
 
     /**
@@ -80,7 +84,7 @@ public final class Constants {
 
         /******** PID Constants ********/
         public static final PIDParameters WHEEL_PID_CONSTANTS = new PIDParameters(0.3, 0.0001, .6, "Drive wheel PID");
-        public static final PIDController ROTATION_PID_CONTROLLER = new PIDController(0.02, 0, 0.0005);
+        public static final PIDController ROTATION_PID_CONTROLLER = new PIDController(0.023, 0.0001, 0.003);
 
         /******** Physical Constants ********/
         public static final double GEAR_RATIO = 10.7;
@@ -114,7 +118,7 @@ public final class Constants {
         public static final int ACCLERATOR_MOTOR_ID = 15;
 
         /******** Tuning Constants ********/
-        public static final double BRUSH_POWER = .75;
+        public static final double BRUSH_POWER = .80;
         public static final double ACCLERATOR_POWER = 1.0;
         public static final double ROLLER_POWER = 1.0;
         public static final double BRUSH_REVERSE_POWER = .75;
@@ -132,7 +136,7 @@ public final class Constants {
         public static final int OUTER_FLYWHEEL_SLAVE_ID = 17;
 
         /******** PID Constants ********/
-        public static final PIDParameters MAIN_FLYWHEEL_PID = new PIDParameters(1.3, 0.00005, 5, "Main flywheel PID");
+        public static final PIDParameters MAIN_FLYWHEEL_PID = new PIDParameters(1.4, 0.00005, 5, "Main flywheel PID");
         public static final PIDParameters OUTER_FLYWHEEL_PID = new PIDParameters(0.5, 0.00015, 6, "Outer flywheel PID");
 
         /******** PID Constants ********/
@@ -140,9 +144,9 @@ public final class Constants {
         public static final double OUTER_FLYWHEEL_GEAR_RATIO = 1.0 / 1.0;
 
         /******** Tuning Constants ********/
-        public static final int MAIN_FLYWHEEL_SPEED_TOLERANCE = 250; // Only shoot powercells if flywheels are within this range of their target speed
+        public static final int MAIN_FLYWHEEL_SPEED_TOLERANCE = 500; // Only shoot powercells if flywheels are within this range of their target speed
         public static final double MAIN_FLYWHEEL_ROC_TOLERANCE = 5000; // Only shoot powercells if the flywheels' speeds' rate of change is below this value
-        public static final int OUTER_FLYWHEEL_SPEED_TOLERANCE = 250;
+        public static final int OUTER_FLYWHEEL_SPEED_TOLERANCE = 500;
         public static final double OUTER_FLYWHEEL_ROC_TOLERANCE = 5000;
 
         public static final double MAIN_FLYWHEEL_SHOOTING_RPM = 5500;
@@ -150,7 +154,8 @@ public final class Constants {
 
         /******** Firing soulutions ********/
         public static final FiringSolution LOB_INTO_GOAL = new FiringSolution(5500, 3000, 20);
-        public static final FiringSolution SHOOT_FROM_STARTING_LINE = new FiringSolution(100);
+        public static final FiringSolution SHOOT_FROM_STARTING_LINE = new FiringSolution(107);
+        public static final FiringSolution SHOOT_FROM_TRENCH = new FiringSolution(125);
 
         /**
          * A 2D array for tuning the shooter.

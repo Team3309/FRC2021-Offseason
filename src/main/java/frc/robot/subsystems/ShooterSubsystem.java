@@ -40,13 +40,15 @@ public class ShooterSubsystem extends SubsystemBase {
         configureMotorPair(
             mainFlywheelMaster,
             mainFlywheelSlave,
-            Constants.Shooter.MAIN_FLYWHEEL_PID);
+            Constants.Shooter.MAIN_FLYWHEEL_PID,
+            false);
 
         // Configure outer flywheel motors
         configureMotorPair(
             outerFlywheelMaster, 
             outerFlywheelSlave,
-            Constants.Shooter.OUTER_FLYWHEEL_PID);
+            Constants.Shooter.OUTER_FLYWHEEL_PID,
+            true);
 
         t = new Timer();
         t.start();
@@ -58,7 +60,6 @@ public class ShooterSubsystem extends SubsystemBase {
      * @param RPM
      */
     public void setFlywheelSpeeds (double mainRPM, double outerRPM) {
-        System.out.println(UnitConversions.Shooter.mainFlywheelRPMToEncoderTicksPer100ms(mainRPM));
         mainFlywheelMaster.set(ControlMode.Velocity, UnitConversions.Shooter.mainFlywheelRPMToEncoderTicksPer100ms(mainRPM));
         outerFlywheelMaster.set(ControlMode.Velocity, UnitConversions.Shooter.outerFlywheelRPMToEncoderTicksPer100ms(outerRPM));
     }
@@ -83,7 +84,7 @@ public class ShooterSubsystem extends SubsystemBase {
      * are below their tuned values
      */
     public boolean isFlywheelUpToSpeed () {
-        boolean isRunning = getMainFlywheelSpeed() >= 50 && getOuterFlywheelSpeed() >= 50;
+        boolean isRunning = getMainFlywheelSpeed() >= 500 && getOuterFlywheelSpeed() >= 500;
 
         boolean mainFlywheelUpToSpeed = (mainFlywheelMaster.getClosedLoopError() <= Constants.Shooter.MAIN_FLYWHEEL_SPEED_TOLERANCE) && 
             (mainFlywheelSpeedROC <= Constants.Shooter.MAIN_FLYWHEEL_ROC_TOLERANCE);
@@ -95,18 +96,27 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void stopFlywheels () {
+        mainFlywheelMaster.setNeutralMode(NeutralMode.Coast);
+        outerFlywheelMaster.setNeutralMode(NeutralMode.Coast);
         mainFlywheelMaster.stopMotor();
         outerFlywheelMaster.stopMotor();
     }
 
-    private void configureMotorPair (TalonFX master, TalonFX slave, PIDParameters pid) {
+    public void brakeFlywheels () {
+        mainFlywheelMaster.setNeutralMode(NeutralMode.Brake);
+        outerFlywheelMaster.setNeutralMode(NeutralMode.Brake);
+        mainFlywheelMaster.stopMotor();
+        outerFlywheelMaster.stopMotor();
+    }
+
+    private void configureMotorPair (TalonFX master, TalonFX slave, PIDParameters pid, boolean inverted) {
         master.configFactoryDefault();
         master.setNeutralMode(NeutralMode.Coast);
+        master.setInverted(inverted);
         pid.configureMotorPID(master);
-        //master.config_IntegralZone(0, UnitConversions.Shooter.mainFlywheelRPMToEncoderTicksPer100ms(RPM))
 
         slave.follow(master);
-        slave.setInverted(true);
+        slave.setInverted(!inverted);
     }
 
     @Override
@@ -132,5 +142,6 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Outer flywheel power", outerFlywheelMaster.getMotorOutputPercent());
         SmartDashboard.putNumber("Main flywheel ROC", mainFlywheelSpeedROC);
         SmartDashboard.putNumber("Outer flywheel ROC", outerFlywheelSpeedROC);
+        SmartDashboard.putBoolean("Shooter up to speed?", isFlywheelUpToSpeed());
     }
 }

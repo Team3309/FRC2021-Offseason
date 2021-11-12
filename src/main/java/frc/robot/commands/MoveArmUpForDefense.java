@@ -5,13 +5,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 
 /**
- * Unclip the arm from its starting position
+ * Move the arm all the way up to block other robots' shots
  */
-public class ExitStartingConfiguration extends CommandBase {
+public class MoveArmUpForDefense extends CommandBase {
 
     ArmSubsystem arm;
 
-    public ExitStartingConfiguration (ArmSubsystem arm) {
+    public MoveArmUpForDefense (ArmSubsystem arm) {
         this.arm = arm;
 
         addRequirements(arm);
@@ -20,18 +20,18 @@ public class ExitStartingConfiguration extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        arm.setArmPower(Constants.Arm.EXIT_STARTING_CONFIG_POWER);
+        arm.setArmPosition(180);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        arm.stopArm();
+        arm.setArmPosition(Constants.Arm.STOWED_ANGLE);
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return arm.getArmPosition() <= Constants.Arm.EXIT_STARTInG_CONFIG_ANGLE;
+        return false;
     }
 }
