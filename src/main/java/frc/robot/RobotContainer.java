@@ -114,6 +114,14 @@ public class RobotContainer {
             () -> OperatorInterface.OperatorController.getBButton(), 
             arm, serializer, shooter));
 
+    /** While d-pad left is pressed, shoot from the trench */
+    new LambdaTrigger(() -> OperatorInterface.OperatorController.getPOV() == 270)
+    .whileActiveContinuous(
+        new AimAndShoot(
+            Constants.Shooter.SHOOT_FROM_TRENCH,
+            () -> OperatorInterface.OperatorController.getBButton(), 
+            arm, serializer, shooter));
+
     /** While driver joystick trigger(s) are pressed, line up the robot with the target */
     new LambdaTrigger(() -> OperatorInterface.DriverLeft.getTrigger() && OperatorInterface.DriverRight.getTrigger())
     .whileActiveContinuous(new LineUpWithTarget(drive));
