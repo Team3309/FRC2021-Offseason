@@ -84,7 +84,7 @@ public final class Constants {
 
         /******** PID Constants ********/
         public static final PIDParameters WHEEL_PID_CONSTANTS = new PIDParameters(0.3, 0.0001, .6, "Drive wheel PID");
-        public static final PIDController ROTATION_PID_CONTROLLER = new PIDController(0.02, 0, 0.0005);
+        public static final PIDController ROTATION_PID_CONTROLLER = new PIDController(0.023, 0.0001, 0.003);
 
         /******** Physical Constants ********/
         public static final double GEAR_RATIO = 10.7;

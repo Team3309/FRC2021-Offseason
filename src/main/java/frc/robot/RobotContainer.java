@@ -123,7 +123,7 @@ public class RobotContainer {
             arm, serializer, shooter));
 
     /** While driver joystick trigger(s) are pressed, line up the robot with the target */
-    new LambdaTrigger(() -> OperatorInterface.DriverLeft.getTrigger() && OperatorInterface.DriverRight.getTrigger())
+    new LambdaTrigger(() -> OperatorInterface.DriverLeft.getTrigger() || OperatorInterface.DriverRight.getTrigger())
     .whileActiveContinuous(new LineUpWithTarget(drive));
 
     /** 
